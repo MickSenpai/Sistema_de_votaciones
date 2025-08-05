@@ -18,17 +18,27 @@ public class prueba1 {
         System.out.println("----  3 - Salir          ----------");
         System.out.println("-----------------------------------");
 
-        System.out.print("Opcion: ");
-        int menuOpcion = menu.nextInt();
+        try {
+            System.out.print("Opcion: ");
+            int menuOpcion = menu.nextInt();
 
-        if(menuOpcion == 1){
-            Admin_Loggin();
-        } else if(menuOpcion == 2){
-            Votante_Loggin();
-        } else if(menuOpcion == 3){
-            System.exit(0);
-        } else {
-            System.out.println("Ingresa una opcion valida");
+            if(menuOpcion == 1){
+                Admin_Loggin();
+            } else if(menuOpcion == 2){
+                Votante_Loggin();
+            } else if(menuOpcion == 3){
+                System.exit(0);
+            } else {
+                System.out.println("Ingrese una opcion valida");
+            }
+        } catch (Exception e) {
+            menu.nextLine();
+            System.out.println("Por favor ingrese una opcion en numeros.");
+            System.out.println("Presione ENTER para continuar");
+            @SuppressWarnings("unused")
+            String message = menu.nextLine();
+
+            Menu();
         }
 
         menu.close();
@@ -65,10 +75,23 @@ public class prueba1 {
         System.out.println("-----------------------------------");
         System.out.println();
 
-        System.out.print("Ingresa tu ID: "); //ID = Matricula
-        int id = matricula.nextInt();
+        //Manejo de error en caso de que agregue algo que no sean numeros.
+        try {
+            System.out.print("Ingresa tu ID: "); //ID = Matricula
+            int id = matricula.nextInt();
 
-        Listado_IDs(id); //Se manda a validacion en la funcion Listado_IDs
+            Listado_IDs(id); //Se manda a validacion en la funcion Listado_IDs
+        } catch (Exception e) {
+            matricula.nextLine();
+
+            System.out.println();
+            System.out.println("Por favor ingrese solo numeros");
+            System.out.println("Presiona ENTER para continuar");
+            @SuppressWarnings("unused")
+            String message = matricula.nextLine();
+
+            Votante_Loggin();
+        }
 
         matricula.close();
     }
@@ -262,7 +285,7 @@ public class prueba1 {
     }
 
     public static void main(String[] args){
-        Agregar_Planillas();
+        Menu();
     }
 
     public static void limpiarConsola() {
