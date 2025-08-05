@@ -1,0 +1,8 @@
+===== Nueva encuesta =====
+Nombre: Mick
+¿Qué opinas de las instalaciones de la universidad? Pues maso
+¿Qué te parecen los servicios administrativos? yo creo que todo bien
+¿Recomendarías esta universidad a otros? si
+¿Qué materia te ha gustado más hasta ahora? Programacion
+¿Qué mejorarías en la universidad? Algunas aulas, mas areas verdes
+
