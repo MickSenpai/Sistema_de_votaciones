@@ -298,7 +298,5 @@ public class prueba1 {
         } catch (Exception e) {
             System.out.println("Error al limpiar la consola: " + e.getMessage());
         }
-        System.out.println("Hola tonoto");
-        System.out.println("Hola tonoto2");
     }
 }
