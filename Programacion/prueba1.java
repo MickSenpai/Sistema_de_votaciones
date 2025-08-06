@@ -332,8 +332,46 @@ public class prueba1 {
             Admin();
         }
     }
-    static void Integrantes_Planillas(){
+    static void Integrantes_Planillas() {
+        limpiarConsola();
+        Scanner integrantes = new Scanner(System.in);
 
+        System.out.println("-----------------------------------");
+        System.out.println("---Integrantes de las plantillas---");
+        System.out.println("-----------------------------------");
+        
+        if (planillaList.isEmpty()) {
+            System.out.println("No hay plantillas registradas");
+            System.out.println("Presiona ENTER para volver al menu...");
+            integrantes.nextLine();
+            Votante_Menu();
+            return;
+        }
+
+        // Mostrar todas las planillas
+        for (int i = 0; i < planillaList.size(); i++) {
+            ArrayList<String> planillaActual = planillaList.get(i);
+            
+            // Obtener el nombre de la planilla (primer elemento)
+            String nombrePlanilla = planillaActual.get(0);
+            System.out.println("\nPlanilla [" + nombrePlanilla + "]");
+
+            for(int j = 1; j < planillaActual.size(); j++) {
+                String[] partes = planillaActual.get(j).split(": ");
+                if(partes.length > 1) {
+                    System.out.println("puesto" + j + " : " + partes[1]); 
+                } else {
+                    System.out.println("puesto" + j + " : Formato incorrecto");
+                }
+            }
+        }
+        
+        System.out.println("-----------------------------------");
+        System.out.println("Presione ENTER para volver...");
+        integrantes.nextLine();
+        Votante_Menu();
+
+        integrantes.close();
     }
 
     static void Votaciones(){
