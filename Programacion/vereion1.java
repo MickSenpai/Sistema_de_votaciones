@@ -3,7 +3,7 @@ package Programacion;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-public class prueba1 {
+public class vereion1 {
 
     static void Menu(){
         Scanner menu = new Scanner(System.in);
