@@ -153,7 +153,7 @@ public class prueba1 {
             int opcion = opcion_Votante.nextInt();
             
             switch (opcion) {
-                case 1 -> System.out.println("Aqui van las votaciones");
+                case 1 -> Votaciones();
                 case 2 -> System.out.println("Aqui va lo de ver plantillas");
                 case 3 -> Votante_Loggin();
                 default -> System.out.println("Ingresa una opcion valida");
@@ -336,6 +336,21 @@ public class prueba1 {
 
     }
 
+    static void Votaciones(){
+        try (Scanner votacion = new Scanner(System.in)){
+            System.out.println("-----------------------------------------");
+            System.out.println("--------   Sistema de votaciones  -------");
+            System.out.println("-----------------------------------------");
+            System.out.println();
+            System.out.println("-----------------------------------------");
+            System.out.println("--- Por favor seleccione su planilla  ---");
+            System.out.println("-----------------------------------------");
+
+            System.out.print("Ingrese su opcion: ");
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
     public static void main(String[] args){
         Agregar_Planillas();
     }
