@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class prueba1 {
 
     static void Menu(){
+        limpiarConsola();
         try (Scanner menu = new Scanner(System.in)) {
             System.out.println("-----------------------------------");
             System.out.println("--Bienvenido Seleccione su opcion--");
@@ -106,7 +107,7 @@ public class prueba1 {
         }
     }
 
-    static ArrayList <Integer> ListaID_Votantes = new ArrayList<>(); //Creamos el listado de IDs
+    static ArrayList <Integer> ListaID_Votantes = new ArrayList<>(); //Creamos el listado de IDs (GLobal)
 
     static void Listado_IDs(int id){ //Se hace la validacion de ID existente
 
@@ -154,7 +155,7 @@ public class prueba1 {
             
             switch (opcion) {
                 case 1 -> Votaciones();
-                case 2 -> System.out.println("Aqui va lo de ver plantillas");
+                case 2 -> Integrantes_Planillas();
                 case 3 -> Votante_Loggin();
                 default -> System.out.println("Ingresa una opcion valida");
             }
@@ -174,7 +175,8 @@ public class prueba1 {
             System.out.println("------ 1- Agregar planillas  ------");
             System.out.println("------ 2- Eliminar planillas ------");
             System.out.println("------ 3- Integrantes planillas ---");
-            System.out.println("------ 4- Finalizar votacion ------");
+            System.out.println("------ 4- Regresar al menu   ------");
+            System.out.println("------ 5- Finalizar votacion ------");
             System.out.println("-----------------------------------");
             System.out.print("Opcion: ");
             int opcion = adminOpcion.nextInt();
@@ -182,13 +184,15 @@ public class prueba1 {
             switch (opcion) {
                 case 1 -> Agregar_Planillas();
                 case 2 -> Eliminar_Planillas();
-                case 3 -> System.out.println("Integrantes de planillas");
+                case 3 -> Integrantes_Planillas();
+                case 4 -> Menu();
+                case 5 -> System.exit(0);
                 default -> System.out.println("Ingresa una opcion valida");
             }
         }
     }
 
-    static ArrayList<ArrayList <String>>  planillaList = new ArrayList<>(); //Listado tiulos planillas
+    static ArrayList<ArrayList <String>>  planillaList = new ArrayList<>(); //Listado tiulos planillas (Global)
 
     static void Agregar_Planillas(){
 
@@ -255,12 +259,14 @@ public class prueba1 {
                 System.out.print("Opcion: ");
                 int datosIngresados = planillas.nextInt();
                 
+                int guardarDatos = datosIngresados;
+
                 System.out.println();
                 
-                switch (datosIngresados) {
-                    case 1 -> System.out.println("Datos guardados correctamente");
-                    case 2 -> System.out.println("Datos eliminados");
-                    default -> System.out.println("Por favor, ingrese una opcion valida");
+                switch (guardarDatos) {
+                    case 1 :System.out.println("Datos guardados correctamente"); break;
+                    case 2 : System.out.println("Datos eliminados"); planillaList.removeAll(planillaList); break;
+                    default: System.out.println("Por favor, ingrese una opcion valida"); break;
                 }
                 
                 System.out.println();
@@ -268,6 +274,7 @@ public class prueba1 {
                 System.out.println("Le gustaria agregar otra planilla?");
                 System.out.println("1- Si");
                 System.out.println("2- No");
+                System.out.println("3- Eliminar planillas agregadas");
                 System.out.print("Opcion: ");
                 int agregarPlanilla = planillas.nextInt();
                 
@@ -275,9 +282,9 @@ public class prueba1 {
                     case 1 -> Agregar_Planillas();
                     case 2 -> Admin();
                     case 3 -> Eliminar_Planillas();
-                    default -> {
-                    }
+                    default -> System.out.println("Ingrese una opcion valida");
                 }
+
             } catch (Exception e) {
                 planillas.nextLine();
                 
@@ -306,13 +313,17 @@ public class prueba1 {
 
             System.out.println("Planillas actuales: " + planillaList.size());
             if (planillaList.isEmpty()) {
+                
                 System.out.println("No hay planillas registradas.");
+
             } else {
 
-            for (int i = 0; i < planillaList.size(); i++) {
-                System.out.println("Planilla " + (i + 1) + ": " + planillaList.get(i));
-            }
-            System.out.print("\nIngrese el número de planilla a eliminar o 0 para regresar: ");
+                for (int i = 0; i < planillaList.size(); i++) {
+                    System.out.println("Planilla " + (i + 1) + ": " + planillaList.get(i));
+                }
+
+                System.out.print("\nIngrese el número de planilla a eliminar o 0 para regresar: ");
+
                 try {
                     int idx = elim.nextInt();
                     elim.nextLine();
@@ -330,8 +341,11 @@ public class prueba1 {
             elim.nextLine();
             
             Admin();
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error, por favor intentelo de nuevo...");
         }
     }
+
     static void Integrantes_Planillas() {
         limpiarConsola();
         Scanner integrantes = new Scanner(System.in);
@@ -345,6 +359,7 @@ public class prueba1 {
             System.out.println("Presiona ENTER para volver al menu...");
             integrantes.nextLine();
             Votante_Menu();
+            integrantes.close();
             return;
         }
 
@@ -375,6 +390,7 @@ public class prueba1 {
     }
 
     static void Votaciones(){
+        limpiarConsola();
         try (Scanner votacion = new Scanner(System.in)){
             System.out.println("-----------------------------------------");
             System.out.println("--------   Sistema de votaciones  -------");
@@ -383,10 +399,61 @@ public class prueba1 {
             System.out.println("-----------------------------------------");
             System.out.println("--- Por favor seleccione su planilla  ---");
             System.out.println("-----------------------------------------");
+            
+
+            for (int i = 0; i < planillaList.size(); i++) {
+            ArrayList<String> planillaActual = planillaList.get(i);
+            
+            // Obtener el nombre de la planilla (primer elemento)
+            String nombrePlanilla = planillaActual.get(0);
+            System.out.println("\nPlanilla [" + nombrePlanilla + "]");
+
+                for(int j = 1; j < planillaActual.size(); j++) {
+                    String[] partes = planillaActual.get(j).split(": ");
+                    if(partes.length > 1) {
+                        System.out.println("puesto" + j + " : " + partes[1]); 
+                    } else {
+                        System.out.println("puesto" + j + " : Formato incorrecto");
+                    }
+                }
+            }
 
             System.out.print("Ingrese su opcion: ");
+
+            try {
+                    int votar = votacion.nextInt();
+                    votacion.nextLine();
+                    if (votar > 0 && votar <= planillaList.size()) {
+                        System.out.println("Esta es la planilla seleccionada, es correcta su opcion?");
+                        planillaList.get(votar -1);
+
+                        System.out.println("1- Si");
+                        System.out.println("2- No");
+                        int voto = votacion.nextInt();
+
+                        int voto_si = voto;
+
+                        switch (voto_si) {
+                            case 1:
+                                System.out.println("Sumatoria voto");
+                                break;
+                            
+                            case 2:
+                                System.out.println("Regresando al menu de votos.");
+                                break;
+                        
+                            default:
+                                System.out.println("Ingrese una opcion valida, por favor.");
+                            break;
+                        }
+                    }
+
+                } catch (Exception e) {
+                    votacion.nextLine();
+                    System.out.println("Entrada inválida.");
+                }
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println("Ha ocurrido un error, por favor intentelo de nuevo.");
         }
     }
     public static void main(String[] args){
