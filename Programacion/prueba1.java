@@ -356,6 +356,7 @@ public class prueba1 {
         
         if (planillaList.isEmpty()) {
             System.out.println("No hay plantillas registradas");
+            System.out.println();
             System.out.println("Presiona ENTER para volver al menu...");
             integrantes.nextLine();
             Votante_Menu();
@@ -382,7 +383,9 @@ public class prueba1 {
         }
         
         System.out.println("-----------------------------------");
-        System.out.println("Presione ENTER para volver...");
+        System.out.println("--- Presione ENTER para volver  ---");
+        System.out.println("-----------------------------------");
+
         integrantes.nextLine();
         Votante_Menu();
 
@@ -439,6 +442,7 @@ public class prueba1 {
                                 break;
                             
                             case 2:
+                                Votaciones();
                                 System.out.println("Regresando al menu de votos.");
                                 break;
                         
