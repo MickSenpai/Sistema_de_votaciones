@@ -221,100 +221,100 @@ public class prueba1 {
 
     static ArrayList<ArrayList <String>>  planillaList = new ArrayList<>(); //Listado tiulos planillas (Global)
 
-   static void Agregar_Planillas() {
+    static void Agregar_Planillas() {
     
-    limpiarConsola();
-    try (Scanner planillas = new Scanner(System.in)) {
-        System.out.println("-----------------------------------");
-        System.out.println("------- Agregar Planillas   -------");
-        System.out.println("-----------------------------------");
-        System.out.println();
-        try {
-            System.out.println("Cuantas planillas desea agregar?");
-            int cantidadPlanillas = planillas.nextInt();
-            
-            for(int p = 1; p <= cantidadPlanillas; p++){
-                ArrayList<String> Titulos = new ArrayList<>();
-            
-                planillas.nextLine();
+        limpiarConsola();
+        try (Scanner planillas = new Scanner(System.in)) {
+            System.out.println("-----------------------------------");
+            System.out.println("------- Agregar Planillas   -------");
+            System.out.println("-----------------------------------");
+            System.out.println();
+            try {
+                System.out.println("Cuantas planillas desea agregar?");
+                int cantidadPlanillas = planillas.nextInt();
                 
-                System.out.println("Planilla " + p);
+                for(int p = 1; p <= cantidadPlanillas; p++){
+                    ArrayList<String> Titulos = new ArrayList<>();
                 
-                System.out.print("Ingrese el nombre de la planilla: "); //Posible a remover
-                String nombrePlanilla = planillas.nextLine();
-                Titulos.add(nombrePlanilla); 
+                    planillas.nextLine();
+                    
+                    System.out.println("Planilla " + p);
+                    
+                    System.out.print("Ingrese el nombre de la planilla: "); //Posible a remover
+                    String nombrePlanilla = planillas.nextLine();
+                    Titulos.add(nombrePlanilla); 
 
-                int numIntegrantes;
+                    int numIntegrantes;
 
-                System.out.println("Cuantos integrantes habra en la planilla?");
-                numIntegrantes = planillas.nextInt();
-                planillas.nextLine();
+                    System.out.println("Cuantos integrantes habra en la planilla?");
+                    numIntegrantes = planillas.nextInt();
+                    planillas.nextLine();
+                    
+                    ArrayList<String> cargos = new ArrayList<>();
+                    for(int i = 1; i <= numIntegrantes; i++){
+                        System.out.print("Ingrese el cargo del integrante " + i + ": ");
+                        String cargo = planillas.nextLine();
+                        cargos.add(cargo);
+                    }
+                    
+                    System.out.println();
+                    
+                    for(int i = 0; i < numIntegrantes; i++){
+                        System.out.print("Ingrese el nombre para " + cargos.get(i) + ": ");
+                        String nombre = planillas.nextLine();
+                        Titulos.add(cargos.get(i) + ": " + nombre);  
+                    }
+                    
+                    planillaList.add(Titulos);
+                }
+
                 
-                ArrayList<String> cargos = new ArrayList<>();
-                for(int i = 1; i <= numIntegrantes; i++){
-                    System.out.print("Ingrese el cargo del integrante " + i + ": ");
-                    String cargo = planillas.nextLine();
-                    cargos.add(cargo);
+                System.out.println();
+                System.out.println("Los datos son correctos?");
+                System.out.println("1- Si");
+                System.out.println("2- No");
+                System.out.print("Opcion: ");
+                int datosIngresados = planillas.nextInt();
+                
+                int guardarDatos = datosIngresados;
+
+                System.out.println();
+                
+                switch (guardarDatos) {
+                    case 1 :System.out.println("Datos guardados correctamente"); break;
+                    case 2 : System.out.println("Datos eliminados"); planillaList.removeAll(planillaList); break;
+                    default: System.out.println("Por favor, ingrese una opcion valida"); break;
                 }
                 
                 System.out.println();
                 
-                for(int i = 0; i < numIntegrantes; i++){
-                    System.out.print("Ingrese el nombre para " + cargos.get(i) + ": ");
-                    String nombre = planillas.nextLine();
-                    Titulos.add(cargos.get(i) + ": " + nombre);  
-                }
+                System.out.println("Le gustaria agregar otra planilla?");
+                System.out.println("1- Si");
+                System.out.println("2- No");
+                System.out.println("3- Eliminar planillas agregadas");
+                System.out.print("Opcion: ");
+                int agregarPlanilla = planillas.nextInt();
                 
-                planillaList.add(Titulos);
-            }
+                switch (agregarPlanilla) {
+                    case 1 -> Agregar_Planillas();
+                    case 2 -> Admin();
+                    case 3 -> Eliminar_Planillas();
+                    default -> System.out.println("Ingrese una opcion valida");
+                }
 
-            
-            System.out.println();
-            System.out.println("Los datos son correctos?");
-            System.out.println("1- Si");
-            System.out.println("2- No");
-            System.out.print("Opcion: ");
-            int datosIngresados = planillas.nextInt();
-            
-            int guardarDatos = datosIngresados;
-
-            System.out.println();
-            
-            switch (guardarDatos) {
-                case 1 :System.out.println("Datos guardados correctamente"); break;
-                case 2 : System.out.println("Datos eliminados"); planillaList.removeAll(planillaList); break;
-                default: System.out.println("Por favor, ingrese una opcion valida"); break;
+            } catch (Exception e) {
+                planillas.nextLine();
+                System.out.println();
+                System.out.println("****************************");
+                System.out.println("Algo ha salido mal, por favor intentalo de nuevo...");
+                System.out.println("Presione ENTER para continuar");
+                System.out.println("****************************");
+                @SuppressWarnings("unused")
+                String repeticion = planillas.nextLine();
+                Agregar_Planillas();
             }
-            
-            System.out.println();
-            
-            System.out.println("Le gustaria agregar otra planilla?");
-            System.out.println("1- Si");
-            System.out.println("2- No");
-            System.out.println("3- Eliminar planillas agregadas");
-            System.out.print("Opcion: ");
-            int agregarPlanilla = planillas.nextInt();
-            
-            switch (agregarPlanilla) {
-                case 1 -> Agregar_Planillas();
-                case 2 -> Admin();
-                case 3 -> Eliminar_Planillas();
-                default -> System.out.println("Ingrese una opcion valida");
-            }
-
-        } catch (Exception e) {
-            planillas.nextLine();
-            System.out.println();
-            System.out.println("****************************");
-            System.out.println("Algo ha salido mal, por favor intentalo de nuevo...");
-            System.out.println("Presione ENTER para continuar");
-            System.out.println("****************************");
-            @SuppressWarnings("unused")
-            String repeticion = planillas.nextLine();
-            Agregar_Planillas();
         }
     }
-}
 
     static void Eliminar_Planillas(){
         limpiarConsola();
@@ -511,8 +511,6 @@ public class prueba1 {
             }
         }
     }
-
-
 
     public static void main(String[] args){
         Menu();
