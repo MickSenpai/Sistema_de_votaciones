@@ -443,6 +443,7 @@ public class prueba1 {
                             
                             case 2:
                                 Votaciones();
+                                System.out.println("Regresando al menu de votos.");
                                 break;
                         
                             default:
