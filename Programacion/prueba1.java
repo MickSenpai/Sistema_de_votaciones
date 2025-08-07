@@ -235,7 +235,7 @@ public class prueba1 {
             
             for(int p = 1; p <= cantidadPlanillas; p++){
                 ArrayList<String> Titulos = new ArrayList<>();
-                
+            
                 planillas.nextLine();
                 
                 System.out.println("Planilla " + p);
@@ -309,6 +309,7 @@ public class prueba1 {
             System.out.println("Algo ha salido mal, por favor intentalo de nuevo...");
             System.out.println("Presione ENTER para continuar");
             System.out.println("****************************");
+            @SuppressWarnings("unused")
             String repeticion = planillas.nextLine();
             Agregar_Planillas();
         }
