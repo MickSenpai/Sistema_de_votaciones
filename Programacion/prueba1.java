@@ -8,6 +8,7 @@ public class prueba1 {
 
     static String password = "BoKuLe1967"; //Contrasena que puede modificarse
     static int limintatID = 10; //Limitante ID que puede ser ajustable
+    static int periodoGestion = 4; //En meeses
 
     static void Menu(){
         limpiarConsola();
@@ -35,13 +36,20 @@ public class prueba1 {
                     case 3:
                         cerrarProgram();
                     default:
-                        System.out.println("*************************");
-                        System.out.println("Ingrese una opcion valida");
-                        System.out.println("*************************");
-                        break;
+                        menu.nextLine();
+                        System.out.println();
+                        System.out.println("******************************");
+                        System.out.println("* Ingrese una opcion valida  *");
+                        System.out.println(" Presiona ENTER para continuar");
+                        System.out.println("******************************");
+                        @SuppressWarnings("unused")
+                        String message = menu.nextLine();
+                        
+                        Menu();
                 }
             } catch (Exception e) {
                 menu.nextLine();
+                System.out.println();
                 System.out.println("******************************");
                 System.out.println("Por favor ingrese solo numeros");
                 System.out.println("Presiona ENTER para continuar");
@@ -59,10 +67,10 @@ public class prueba1 {
         String passwd = password;
 
         limpiarConsola();
-         // Contrasena modificable 
+
         try (Scanner password = new Scanner(System.in)) {
             System.out.println("-----------------------------------------------------");
-            System.out.print  ("-- Por favor ingrese el password de administrador ---");
+            System.out.println("-- Por favor ingrese el password de administrador ---");
             System.out.println("-----------------------------------------------------");
 
             System.out.print("Password: ");
@@ -184,7 +192,9 @@ public class prueba1 {
 
     static void Votante_Menu(){
         limpiarConsola();
-        try (Scanner opcion_Votante = new Scanner(System.in)) {
+
+        Scanner opcion_Votante = new Scanner(System.in);
+        try{
             System.out.println("-----------------------------------");
             System.out.println("------ Bienvenido Votante    ------");
             System.out.println("-----------------------------------");
@@ -206,12 +216,28 @@ public class prueba1 {
                 case 3 -> Votante_Loggin();
                 default -> System.out.println("Ingresa una opcion valida");
             }
+        } catch (Exception e) {
+            opcion_Votante.nextLine();
+            
+            System.out.println();
+            System.out.println("******************************");
+            System.out.println("Por favor ingrese solo numeros");
+            System.out.println("Presione ENTER para continuar");
+            System.out.println("******************************");
+            @SuppressWarnings("unused")
+            String message = opcion_Votante.nextLine();
+            
+            Votante_Menu();
         }
+
+        opcion_Votante.close();
     }
 
     static void Admin(){
         limpiarConsola();
-        try (Scanner adminOpcion = new Scanner(System.in)) {
+        Scanner adminOpcion = new Scanner(System.in);
+
+        try{
             System.out.println("-----------------------------------");
             System.out.println("---- Bienvenido Administrador  ----");
             System.out.println("-----------------------------------");
@@ -238,7 +264,20 @@ public class prueba1 {
                 case 6 -> System.exit(0);
                 default -> System.out.println("Ingresa una opcion valida");
             }
+        } catch (Exception e) {
+            adminOpcion.nextLine();
+            System.out.println();
+            System.out.println("******************************");
+            System.out.println("Por favor ingrese solo numeros");
+            System.out.println("Presiona ENTER para continuar");
+            System.out.println("******************************");
+            @SuppressWarnings("unused")
+            String message = adminOpcion.nextLine();
+            
+            Menu();
         }
+
+        adminOpcion.close();
     }
 
     static ArrayList<ArrayList <String>>  planillaList = new ArrayList<>(); //Listado tiulos planillas (Global)
@@ -252,6 +291,40 @@ public class prueba1 {
             System.out.println("-----------------------------------");
             System.out.println();
             try {
+                System.out.println("------------------------------------------");
+                System.out.println("- Desea modificar el periodo de Gestion? -");
+                System.out.println("------------------------------------------");
+                System.out.println("------------------------------------------");
+                System.out.println("----  1- Si                    -----------");
+                System.out.println("----  2- No                    -----------");
+                System.out.println("------------------------------------------");
+                int gestionPeriodo = planillas.nextInt();
+
+                if(gestionPeriodo == 1){
+                    limpiarConsola();
+
+                    System.out.println("------------------------------------------");
+                    System.out.println("--- Ingrese el nuevo periodo em Meses  ---");
+                    System.out.println("------------------------------------------");
+                    periodoGestion = planillas.nextInt();
+
+                    limpiarConsola();
+
+                    planillas.nextLine();
+                    System.out.println("------------------------------------------");
+                    System.out.println("Periodo cambiado a " + periodoGestion + " Meses");
+                    System.out.println("------------------------------------------");
+                    @SuppressWarnings("unused")
+                    String message = planillas.nextLine();
+                }
+
+                limpiarConsola();
+
+                System.out.println("-----------------------------------");
+                System.out.println("------- Agregar Planillas   -------");
+                System.out.println("-----------------------------------");
+                System.out.println();
+
                 System.out.print("Cuantas planillas desea agregar?: ");
                 int cantidadPlanillas = planillas.nextInt();
                 
@@ -286,10 +359,11 @@ public class prueba1 {
                         String nombre = planillas.nextLine();
                         Titulos.add(cargos.get(i) + ": " + nombre);  
                     }
-                    
+
+                    System.out.println();
+
                     planillaList.add(Titulos);
                 }
-
                 
                 System.out.println();
                 System.out.println("Los datos son correctos?");
@@ -565,7 +639,7 @@ public class prueba1 {
     }
 
     static void Ganadores(){
-        int contadorVoto = -1; //Por que -1?
+        int contadorVoto = -1;
         ArrayList<Integer> ganadores = new ArrayList<>();
 
         for(int i = 0; i < planillaList.size(); i++){
