@@ -176,7 +176,8 @@ public class prueba1 {
         }
     }
 
-    static void UsuarioRepetido(){ try ( //Muestra mensaje de repeticion
+    static void UsuarioRepetido(){ 
+        try ( //Muestra mensaje de repeticion
         Scanner repetido = new Scanner(System.in)) {
         System.out.println();
         System.out.println("****************************");
@@ -213,7 +214,7 @@ public class prueba1 {
             switch (opcion) {
                 case 1 -> Votaciones();
                 case 2 -> Integrantes_Planillas();
-                case 3 -> Votante_Loggin();
+                case 3 -> Menu();
                 default -> System.out.println("Ingresa una opcion valida");
             }
         } catch (Exception e) {
@@ -298,6 +299,7 @@ public class prueba1 {
                 System.out.println("----  1- Si                    -----------");
                 System.out.println("----  2- No                    -----------");
                 System.out.println("------------------------------------------");
+                System.out.print("Opcion: ");
                 int gestionPeriodo = planillas.nextInt();
 
                 if(gestionPeriodo == 1){
@@ -366,9 +368,12 @@ public class prueba1 {
                 }
                 
                 System.out.println();
-                System.out.println("Los datos son correctos?");
-                System.out.println("1- Si");
-                System.out.println("2- No");
+                System.out.println("-------------------------------------------");
+                System.out.println("-------- Los datos son correctos?  --------");
+                System.out.println("----  1- Si                    ------------");
+                System.out.println("----  2- No                    ------------");
+                System.out.println("----  3- Eliminar planillas agregadas -----");
+                System.out.println("-------------------------------------------");
                 System.out.print("Opcion: ");
                 int datosIngresados = planillas.nextInt();
                 
@@ -446,11 +451,14 @@ public class prueba1 {
                     }
                 } catch (Exception e) {
                     elim.nextLine();
-                    System.out.println("Entrada inválida.");
+                    System.out.println("*********************");
+                    System.out.println("* Entrada inválida. *");
+                    System.out.println("*********************");
                 }
             }
-            
-            System.out.println("Presione ENTER para continuar");
+            System.out.println("*********************************");
+            System.out.println("* Presione ENTER para continuar *");
+            System.out.println("*********************************");
             elim.nextLine();
             
             Admin();
@@ -496,7 +504,7 @@ public class prueba1 {
         System.out.println("-----------------------------------");
         integrantes.nextLine();
 
-        Votaciones();
+        Votante_Menu();
 
         integrantes.close();
     }
@@ -634,12 +642,18 @@ public class prueba1 {
         planillaVotada.set(indiceVotos, String.valueOf(votosActuales));
 
         System.out.println();
+        System.out.println("--------------------------------------------------------");
         System.out.println("Se registró un voto para la Planilla [" + planillaVotada.get(0) + "]");
         System.out.println("Total de votos: " + votosActuales);
+        System.out.println("--------------------------------------------------------");
+
     }
 
     static void Ganadores(){
+        limpiarConsola();
         int contadorVoto = -1;
+
+        Scanner ganadoresMessage = new Scanner(System.in);
         ArrayList<Integer> ganadores = new ArrayList<>();
 
         for(int i = 0; i < planillaList.size(); i++){
@@ -667,24 +681,39 @@ public class prueba1 {
 
         if(contadorVoto == 0){
 
-            System.out.println("Las planillas no recibieron votos");
+            System.out.println("-------------------------------------");
+            System.out.println("- Las planillas no recibieron votos -");
+            System.out.println("-------------------------------------");
 
         }else if(ganadores.size() == 1){
 
             int ganador = ganadores.get(0);
             String ganadorName = planillaList.get(ganador).get(0);
 
+            System.out.println("------------------------------------------------------------------------------");
             System.out.println("La planilla con mayores votos es: " + ganadorName + " con " + contadorVoto + " votos a su favor");
+            System.out.println("------------------------------------------------------------------------------");
+            @SuppressWarnings("unused")
+            String message = ganadoresMessage.nextLine();
+
+            Admin();
         } else {
 
-            System.out.println("Tenemos un empate entre: ");
+            System.out.println("-----------------------------------------");
+            System.out.println("--- Tenemos un empate entre: ------------");
 
             for(int i : ganadores){
                 String empatados = planillaList.get(i).get(0);
 
                 System.out.println("Empadatos: " + empatados + " con " + " votos");
             }
+
+            System.out.println("-----------------------------------------");
+            @SuppressWarnings("unused")
+            String message = ganadoresMessage.nextLine();
         }
+
+        ganadoresMessage.close();
     }
 
     public static void main(String[] args){
