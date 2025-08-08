@@ -6,6 +6,9 @@ import java.util.Scanner;
 
 public class prueba1 {
 
+    static String password = "BoKuLe1967"; //Contrasena que puede modificarse
+    static int limintatID = 10; //Limitante ID que puede ser ajustable
+
     static void Menu(){
         limpiarConsola();
         try (Scanner menu = new Scanner(System.in)) {
@@ -30,7 +33,7 @@ public class prueba1 {
                         Votante_Loggin();
                         break;
                     case 3:
-                        System.exit(0);
+                        cerrarProgram();
                     default:
                         System.out.println("*************************");
                         System.out.println("Ingrese una opcion valida");
@@ -53,12 +56,13 @@ public class prueba1 {
 
     static void Admin_Loggin(){
 
-        limpiarConsola();
+        String passwd = password;
 
-        String passwd = "BoKuLe1967"; // Contrasena modificable 
+        limpiarConsola();
+         // Contrasena modificable 
         try (Scanner password = new Scanner(System.in)) {
             System.out.println("-----------------------------------------------------");
-            System.out.print  ("-- Por favor ingrese el password de administrador: ");
+            System.out.print  ("-- Por favor ingrese el password de administrador ---");
             System.out.println("-----------------------------------------------------");
 
             System.out.print("Password: ");
@@ -66,7 +70,9 @@ public class prueba1 {
             
             if(pwdUser.trim().isEmpty()){
                 password.nextLine();
-                System.out.println("Por favor ingrese una contrasena");
+                System.out.println("************************************");
+                System.out.println("* Por favor ingrese una contrasena *");
+                System.out.println("************************************");
                 @SuppressWarnings("unused")
                 String message = password.nextLine();
 
@@ -76,8 +82,10 @@ public class prueba1 {
             } else {
                 password.nextLine();
                 System.out.println();
-                System.out.println("Contrasena incorrecta, intentelo de nuevo.");
-                System.out.println("Presione ENTER para continuar");
+                System.out.println("**********************************************");
+                System.out.println("* Contrasena incorrecta, intentelo de nuevo. *");
+                System.out.println("*******  Presione ENTER para continuar  ******");
+                System.out.println("**********************************************");
                 @SuppressWarnings("unused")
                 String message = password.nextLine();
                 
@@ -102,10 +110,22 @@ public class prueba1 {
                 if(id.trim().isEmpty()){
                     System.out.println("No se ha ingresado ningun dato. Por favor, intente de nuevo.");
                     Votante_Loggin();
+                
+                } else if(id.length() != limintatID){
+                    
+                    System.out.println();
+                    System.out.println("******************************************");
+                    System.out.println("El ID debe contener 10 charactares/digitos");
+                    System.out.println("*****   Por favor intente de nuevo   *****");
+                    System.out.println("******************************************");
+                    @SuppressWarnings("unused")
+                    String message = matricula.nextLine();
+
+                    Menu();
                 } else {
                     try {
                         int idNumero = Integer.parseInt(id.trim());
-                        Listado_IDs(idNumero); //Se manda a validacion en la funcion Listado_IDs
+                        Listado_IDs(idNumero); //Se manda a validacion a la funcion Listado_IDs para ver si es repetido
                     } catch (Exception e) {
                         System.out.println();
                         System.out.println("****************************************");
@@ -232,7 +252,7 @@ public class prueba1 {
             System.out.println("-----------------------------------");
             System.out.println();
             try {
-                System.out.println("Cuantas planillas desea agregar?");
+                System.out.print("Cuantas planillas desea agregar?: ");
                 int cantidadPlanillas = planillas.nextInt();
                 
                 for(int p = 1; p <= cantidadPlanillas; p++){
@@ -248,7 +268,7 @@ public class prueba1 {
 
                     int numIntegrantes;
 
-                    System.out.println("Cuantos integrantes habra en la planilla?");
+                    System.out.print("Cuantos integrantes habra en la planilla?: ");
                     numIntegrantes = planillas.nextInt();
                     planillas.nextLine();
                     
@@ -309,10 +329,10 @@ public class prueba1 {
             } catch (Exception e) {
                 planillas.nextLine();
                 System.out.println();
-                System.out.println("****************************");
-                System.out.println("Algo ha salido mal, por favor intentalo de nuevo...");
-                System.out.println("Presione ENTER para continuar");
-                System.out.println("****************************");
+                System.out.println("****************************************************");
+                System.out.println("* Algo ha salido mal, por favor intentalo de nuevo *");
+                System.out.println("********   Presione ENTER para continuar   *********");
+                System.out.println("****************************************************");
                 @SuppressWarnings("unused")
                 String repeticion = planillas.nextLine();
                 Agregar_Planillas();
@@ -396,11 +416,12 @@ public class prueba1 {
             }
         }
         
-        System.out.println("\n-----------------------------------");
+        System.out.println();
+        System.out.println("-----------------------------------");
         System.out.println("--- Presione ENTER para volver  ---");
         System.out.println("-----------------------------------");
-
         integrantes.nextLine();
+
         Votaciones();
 
         integrantes.close();
@@ -414,7 +435,8 @@ public class prueba1 {
         try{
             System.out.println("-----------------------------------------");
             System.out.println("--------   Sistema de votaciones  -------");
-            System.out.println("-----------------------------------------\n");
+            System.out.println("-----------------------------------------");
+            System.out.println();
             System.out.println("-----------------------------------------");
             System.out.println("--- Por favor seleccione su planilla  ---");
             System.out.println("-----------------------------------------");
@@ -434,11 +456,14 @@ public class prueba1 {
                 }
             }
 
-            System.out.print("\nIngrese su opción: ");
+            System.out.println();
+            System.out.print("Ingrese su opción: ");
             int voto = votacion.nextInt();
 
             if (voto >= 1 && voto <= planillaList.size()) {
                 ArrayList<String> planillaVotada = planillaList.get(voto - 1);
+                
+                limpiarConsola();
 
                 System.out.println();
                 System.out.println("------------------------------");
@@ -454,31 +479,48 @@ public class prueba1 {
                 System.out.println("--- 1 - Sí              --------");
                 System.out.println("--- 2 - No              --------");
                 System.out.println("--------------------------------");
-                int confirmacionVoto = votacion.nextInt();
+                
+                try {
+                    int confirmacionVoto = votacion.nextInt();
 
-                switch (confirmacionVoto) {
-                    case 1:
-                        votacion.nextLine();
-                        Conteo_Votos(voto - 1);
+                    switch (confirmacionVoto) {
+                        case 1:
+                            Conteo_Votos(voto - 1);
 
-                        System.out.println();
-                        System.out.println("--------------------------------");
-                        System.out.println("--- Regresando al menu...  -----");
-                        System.out.println("--------------------------------");
-                        @SuppressWarnings("unused")
-                        String message = votacion.nextLine();
+                            System.out.println();
+                            System.out.println("--------------------------------");
+                            System.out.println("--- Regresando al menu...  -----");
+                            System.out.println("--------------------------------");
+                            @SuppressWarnings("unused")
+                            String message = votacion.nextLine();
 
-                        Menu();
-                        break;
-                    case 2:
-                        Votaciones();
-                        break;
-                    default:
-                        System.out.println("--------------------------------");
-                        System.out.println("--- Ingrese una opción válida. -");
-                        System.out.println("--------------------------------");
+                            Menu();
+                            break;
+                        case 2:
+                            Votaciones();
+                            break;
+                        default:
+                            System.out.println("--------------------------------");
+                            System.out.println("--- Ingrese una opción válida. -");
+                            System.out.println("--------------------------------");
+
+                            Votaciones();
+                    }
+                } catch (Exception e) {
+                    limpiarConsola();
+
+                    votacion.nextLine();
+                    System.out.println("------------------------------------");
+                    System.out.println("Opción inválida. Intente nuevamente.");
+                    System.out.println("------------------------------------");
+                    @SuppressWarnings("unused")
+                    String message = votacion.nextLine();
+                    Votaciones();
                 }
+
             } else {
+                limpiarConsola();
+
                 votacion.nextLine();
                 System.out.println("------------------------------------");
                 System.out.println("Opción inválida. Intente nuevamente.");
@@ -504,6 +546,8 @@ public class prueba1 {
     }
 
     static void Conteo_Votos(int numeroPlanilla) {
+        limpiarConsola();
+        
         ArrayList<String> planillaVotada = planillaList.get(numeroPlanilla);
 
         if (planillaVotada.size() == 0 || !planillaVotada.get(planillaVotada.size() - 1).matches("\\d+")) {
@@ -571,6 +615,54 @@ public class prueba1 {
 
     public static void main(String[] args){
         Menu();
+    }
+
+    static void cerrarProgram(){
+        limpiarConsola();
+
+        String passwd = password;
+
+        try (Scanner password = new Scanner(System.in)) {
+            System.out.println("---------------------------------------------------------------------------");
+            System.out.println("-- Por favor ingrese el password de administrador para cerrar el programa: ");
+            System.out.println("---------------------------------------------------------------------------");
+
+            System.out.print("Password: ");
+            String pwdUser = password.next();
+            
+            if(pwdUser.trim().isEmpty()){
+                password.nextLine();
+                System.out.println("************************************");
+                System.out.println("* Por favor ingrese una contrasena *");
+                System.out.println("************************************");
+                @SuppressWarnings("unused")
+                String message = password.nextLine();
+
+                Admin_Loggin();
+            }else if (pwdUser.equals(passwd)) {
+
+                limpiarConsola();
+                System.out.println();
+                System.out.println("----------------------------------");
+                System.out.println("Programa cerrado de manera exitosa");
+                System.out.println("----------------------------------");
+                System.out.println();
+
+                System.exit(0);
+
+            } else {
+                password.nextLine();
+                System.out.println();
+                System.out.println("**********************************************");
+                System.out.println("* Contrasena incorrecta, intentelo de nuevo. *");
+                System.out.println("****    Presione ENTER para continuar    *****");
+                System.out.println("**********************************************");
+                @SuppressWarnings("unused")
+                String message = password.nextLine();
+                
+                Menu();
+            }
+        }
     }
 
     public static void limpiarConsola() {
