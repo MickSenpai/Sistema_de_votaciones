@@ -203,7 +203,8 @@ public class prueba1 {
             System.out.println("------ 2- Eliminar planillas ------");
             System.out.println("------ 3- Integrantes planillas ---");
             System.out.println("------ 4- Regresar al menu   ------");
-            System.out.println("------ 5- Finalizar votacion ------");
+            System.out.println("------ 5- Conocer Resultados ------");
+            System.out.println("------ 6- Finalizar votacion ------");
             System.out.println("-----------------------------------");
             System.out.print("Opcion: ");
             int opcion = adminOpcion.nextInt();
@@ -213,7 +214,8 @@ public class prueba1 {
                 case 2 -> Eliminar_Planillas();
                 case 3 -> Integrantes_Planillas();
                 case 4 -> Menu();
-                case 5 -> System.exit(0);
+                case 5 -> Ganadores();
+                case 6 -> System.exit(0);
                 default -> System.out.println("Ingresa una opcion valida");
             }
         }
@@ -288,10 +290,12 @@ public class prueba1 {
                 
                 System.out.println();
                 
-                System.out.println("Le gustaria agregar otra planilla?");
-                System.out.println("1- Si");
-                System.out.println("2- No");
-                System.out.println("3- Eliminar planillas agregadas");
+                System.out.println("-------------------------------------------");
+                System.out.println("--- Le gustaria agregar otra planilla?  ---");
+                System.out.println("----  1- Si                    ------------");
+                System.out.println("----  2- No                    ------------");
+                System.out.println("----  3- Eliminar planillas agregadas -----");
+                System.out.println("-------------------------------------------");
                 System.out.print("Opcion: ");
                 int agregarPlanilla = planillas.nextInt();
                 
@@ -398,117 +402,129 @@ public class prueba1 {
         integrantes.close();
     }
 
-    static void Votaciones(){
+    static void Votaciones() {
         limpiarConsola();
-        try (Scanner votacion = new Scanner(System.in)){
+
+        Scanner votacion = new Scanner(System.in);
+        
+        try{
             System.out.println("-----------------------------------------");
             System.out.println("--------   Sistema de votaciones  -------");
-            System.out.println("-----------------------------------------");
-            System.out.println();
+            System.out.println("-----------------------------------------\n");
             System.out.println("-----------------------------------------");
             System.out.println("--- Por favor seleccione su planilla  ---");
             System.out.println("-----------------------------------------");
-            
 
             for (int i = 0; i < planillaList.size(); i++) {
                 ArrayList<String> planillaActual = planillaList.get(i);
-            
-                // Obtener el nombre de la planilla (primer elemento)
                 String nombrePlanilla = planillaActual.get(0);
-                System.out.println("\nPlanilla " + (i+1) + "[" + nombrePlanilla + "]");
+                System.out.println("\nPlanilla " + (i + 1) + " [" + nombrePlanilla + "]");
 
-                for(int j = 1; j < planillaActual.size(); j++) {
+                for (int j = 1; j < planillaActual.size(); j++) {
                     String[] partes = planillaActual.get(j).split(": ");
-                    if(partes.length > 1) {
-                        System.out.println("puesto" + j + " : " + partes[1]); 
+                    if (partes.length > 1) {
+                        System.out.println("Puesto " + j + " : " + partes[1]);
                     } else {
-                        System.out.println("puesto" + j + " : Formato incorrecto");
+                        System.out.println("Puesto " + j + " : Formato incorrecto");
                     }
                 }
             }
 
-            System.out.println();
+            System.out.print("\nIngrese su opción: ");
+            int voto = votacion.nextInt();
 
-            try {
-                System.out.print("Ingrese su opcion: ");
-                int voto = votacion.nextInt();
+            if (voto >= 1 && voto <= planillaList.size()) {
+                ArrayList<String> planillaVotada = planillaList.get(voto - 1);
 
-                ArrayList<String> planillasVotada = planillaList.get(voto);
+                System.out.println();
+                System.out.println("------------------------------");
+                System.out.println("La planilla seleccionada es: ");
+                System.out.println("------------------------------\n");
 
-                if (voto > 0 && voto <= planillaList.size()) {
-                    System.out.println("------------------------------");
-                    System.out.println("La planillas seleccionada es: ");
-                    System.out.println("------------------------------");
+                String nombrePlanilla = planillaVotada.get(0);
+                System.out.println("Planilla: " + nombrePlanilla);
 
-                    String nombrePlanilla = planillasVotada.get(0);
-                    System.out.println("\nPlanilla: " + nombrePlanilla);
+                System.out.println();
+                System.out.println("--------------------------------");
+                System.out.println("--- ¿Es correcta su elección? ---");
+                System.out.println("--- 1 - Sí              --------");
+                System.out.println("--- 2 - No              --------");
+                System.out.println("--------------------------------");
+                int confirmacionVoto = votacion.nextInt();
 
-                    for(int j = 1; j < planillasVotada.size(); j++) {
-                        String[] partes = planillasVotada.get(j).split(": ");
-                        if(partes.length > 1) {
-                            System.out.println("puesto" + j + " : " + partes[1]); 
-                        } else {
-                            System.out.println("puesto" + j + " : Formato incorrecto");
-                        }
-                    }
+                switch (confirmacionVoto) {
+                    case 1:
+                        votacion.nextLine();
+                        //Conteo_Votos(voto - 1);
 
-                    System.out.println();
-                    System.out.println("--------------------------------");
-                    System.out.println("--- Es correcta su eleccion? ---");
-                    System.out.println("--- 1- Si              ---------");
-                    System.out.println("--- 2- No              ---------");
-                    System.out.println("--------------------------------");
-                    int confirmacionVoto = votacion.nextInt();
+                        System.out.println();
+                        System.out.println("--------------------------------");
+                        System.out.println("--- Regresando al menu...  -----");
+                        System.out.println("--------------------------------");
+                        @SuppressWarnings("unused")
+                        String message = votacion.nextLine();
 
-                    switch (confirmacionVoto) {
-                        case 1:
-                            Conteo_Votos(confirmacionVoto);
-                            break;
-                            
-                        case 2:
-                            Votaciones();
-                            break;
-                    
-                        default:
-                            System.out.println("Ingrese una opcion valida, por favor.");
+                        Menu();
                         break;
-                    }
+                    case 2:
+                        Votaciones();
+                        break;
+                    default:
+                        System.out.println("--------------------------------");
+                        System.out.println("--- Ingrese una opción válida. -");
+                        System.out.println("--------------------------------");
                 }
-
-            } catch (Exception e) {
+            } else {
                 votacion.nextLine();
-                System.out.println("Entrada inválida.");
+                System.out.println("------------------------------------");
+                System.out.println("Opción inválida. Intente nuevamente.");
+                System.out.println("------------------------------------");
                 @SuppressWarnings("unused")
                 String message = votacion.nextLine();
-
-                Menu();
+                Votaciones();
             }
 
+            votacion.close();
         } catch (Exception e) {
-            System.out.println("Ha ocurrido un error, por favor intentelo de nuevo.");
+            votacion.nextLine();
+            System.out.println("------------------------------------");
+            System.out.println("Opción inválida. Intente nuevamente.");
+            System.out.println("------------------------------------");
+
+            System.out.println(e);
+
+            @SuppressWarnings("unused")
+            String message = votacion.nextLine();
+            Votaciones();
         }
     }
 
-    public static void Conteo_Votos(int numeroPlanilla) {
+    static void Conteo_Votos(int numeroPlanilla) {
         ArrayList<String> planillaVotada = planillaList.get(numeroPlanilla);
 
         String nombrePlanilla = planillaVotada.get(0);
-        System.out.println("\nSe registró un voto para la Planilla [" + nombrePlanilla + "]");
+        int votosActuales = Integer.parseInt(planillaVotada.get(1));
+        votosActuales++;
 
-        for (int i = 1; i < planillaVotada.size(); i++) {
-            String[] partes = planillaVotada.get(i).split(": ");
-            if (partes.length == 2) {
-                String puesto = partes[0];
-                try {
-                    int votos = Integer.parseInt(partes[1].trim());
-                    votos++;
-                    // Se actualiza lista
-                    planillaVotada.set(i, puesto + ": " + votos);
-                    break;
-                } catch (NumberFormatException e) {
-                    System.out.println("Error al leer votos del puesto: " + puesto);
-                }
+        planillaVotada.add(1, String.valueOf(votosActuales));
+
+        System.out.println("\nSe registró un voto para la Planilla [" + nombrePlanilla + "]");
+    }
+
+    static void Ganadores(){
+        String planillaGanadora = "";
+        int limiteVotos = -1;
+
+            for (ArrayList<String> planillaGanador : planillaList) {
+            String nombre = planillaGanador.get(0);
+            int votos = Integer.parseInt(planillaGanador.get(1));
+
+            if (votos > limiteVotos) {
+                limiteVotos = votos;
+                planillaGanadora = nombre;
             }
+
+            System.out.println("\nLa planilla con más votos es: " + planillaGanadora + " con " + limiteVotos + " votos.");
         }
     }
 
