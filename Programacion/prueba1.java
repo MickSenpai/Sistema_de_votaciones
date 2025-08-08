@@ -374,9 +374,13 @@ public class prueba1 {
         System.out.println("-----------------------------------");
         
         if (planillaList.isEmpty()) {
-            System.out.println("No hay plantillas registradas");
+            System.out.println("-----------------------------------");
+            System.out.println("-- No hay plantillas registradas --");
+            System.out.println("-----------------------------------");
             System.out.println();
+            System.out.println("-------------------------------------");
             System.out.println("Presiona ENTER para volver al menu...");
+            System.out.println("-------------------------------------");
             integrantes.nextLine();
             Votante_Menu();
         }
@@ -455,7 +459,7 @@ public class prueba1 {
                 switch (confirmacionVoto) {
                     case 1:
                         votacion.nextLine();
-                        //Conteo_Votos(voto - 1);
+                        Conteo_Votos(voto - 1);
 
                         System.out.println();
                         System.out.println("--------------------------------");
@@ -502,29 +506,66 @@ public class prueba1 {
     static void Conteo_Votos(int numeroPlanilla) {
         ArrayList<String> planillaVotada = planillaList.get(numeroPlanilla);
 
-        String nombrePlanilla = planillaVotada.get(0);
-        int votosActuales = Integer.parseInt(planillaVotada.get(1));
+        if (planillaVotada.size() == 0 || !planillaVotada.get(planillaVotada.size() - 1).matches("\\d+")) {
+            planillaVotada.add("0");
+        }
+
+        int indiceVotos = planillaVotada.size() - 1;
+        int votosActuales = Integer.parseInt(planillaVotada.get(indiceVotos));
         votosActuales++;
+        planillaVotada.set(indiceVotos, String.valueOf(votosActuales));
 
-        planillaVotada.add(1, String.valueOf(votosActuales));
-
-        System.out.println("\nSe registró un voto para la Planilla [" + nombrePlanilla + "]");
+        System.out.println();
+        System.out.println("Se registró un voto para la Planilla [" + planillaVotada.get(0) + "]");
+        System.out.println("Total de votos: " + votosActuales);
     }
 
     static void Ganadores(){
-        String planillaGanadora = "";
-        int limiteVotos = -1;
+        int contadorVoto = -1; //Por que -1?
+        ArrayList<Integer> ganadores = new ArrayList<>();
 
-            for (ArrayList<String> planillaGanador : planillaList) {
-            String nombre = planillaGanador.get(0);
-            int votos = Integer.parseInt(planillaGanador.get(1));
+        for(int i = 0; i < planillaList.size(); i++){
+            ArrayList<String> planilla = planillaList.get(i);
+            String conteo = planilla.get(planilla.size() - 1);
 
-            if (votos > limiteVotos) {
-                limiteVotos = votos;
-                planillaGanadora = nombre;
+            int votos;
+
+            try{
+                votos = Integer.parseInt(conteo);
+            } catch (NumberFormatException e){
+                votos = 0;
             }
 
-            System.out.println("\nLa planilla con más votos es: " + planillaGanadora + " con " + limiteVotos + " votos.");
+            if(votos > contadorVoto){
+                contadorVoto = votos;
+                ganadores.clear();
+                ganadores.add(i);
+            } else if(votos == contadorVoto){
+                ganadores.add(i);
+            }
+        }
+
+        System.out.println("Resultados: ");
+
+        if(contadorVoto == 0){
+
+            System.out.println("Las planillas no recibieron votos");
+
+        }else if(ganadores.size() == 1){
+
+            int ganador = ganadores.get(0);
+            String ganadorName = planillaList.get(ganador).get(0);
+
+            System.out.println("La planilla con mayores votos es: " + ganadorName + " con " + contadorVoto + " votos a su favor");
+        } else {
+
+            System.out.println("Tenemos un empate entre: ");
+
+            for(int i : ganadores){
+                String empatados = planillaList.get(i).get(0);
+
+                System.out.println("Empadatos: " + empatados + " con " + " votos");
+            }
         }
     }
 
