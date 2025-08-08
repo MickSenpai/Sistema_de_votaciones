@@ -532,8 +532,6 @@ public class prueba1 {
                     String[] partes = planillaActual.get(j).split(": ");
                     if (partes.length > 1) {
                         System.out.println("Puesto " + j + " : " + partes[1]);
-                    } else {
-                        System.out.println("Puesto " + j + " : Formato incorrecto");
                     }
                 }
             }
