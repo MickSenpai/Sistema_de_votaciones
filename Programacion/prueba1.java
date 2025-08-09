@@ -39,6 +39,7 @@ public class prueba1 {
                         break;
                     case 3:
                         InformacionVotacion();
+                        break;
                      case 4:
                         cerrarProgram();
                         break;
@@ -130,7 +131,7 @@ public class prueba1 {
                     
                     System.out.println();
                     System.out.println("******************************************");
-                    System.out.println("El ID debe contener 10 charactares/digitos");
+                    System.out.println("El ID debe contener " + limintatID + " charactares/digitos");
                     System.out.println("*****   Por favor intente de nuevo   *****");
                     System.out.println("******************************************");
                     @SuppressWarnings("unused")
@@ -256,9 +257,10 @@ public class prueba1 {
             System.out.println("------ 1- Agregar planillas  ------");
             System.out.println("------ 2- Eliminar planillas ------");
             System.out.println("------ 3- Integrantes planillas ---");
-            System.out.println("------ 4- Regresar al menu   ------");
-            System.out.println("------ 5- Conocer Resultados ------");
-            System.out.println("------ 6- Finalizar votacion ------");
+            System.out.println("------ 4- Modificar informacion ---");
+            System.out.println("------ 5- Regresar al menu   ------");
+            System.out.println("------ 6- Conocer Resultados ------");
+            System.out.println("------ 7- Finalizar votacion ------");
             System.out.println("-----------------------------------");
             System.out.print("Opcion: ");
             int opcion = adminOpcion.nextInt();
@@ -267,9 +269,10 @@ public class prueba1 {
                 case 1 -> Agregar_Planillas();
                 case 2 -> Eliminar_Planillas();
                 case 3 -> Integrantes_Planillas();
-                case 4 -> Menu();
-                case 5 -> Ganadores();
-                case 6 -> System.exit(0);
+                case 4 -> Integrantes_Planillas();
+                case 5 -> Menu();
+                case 6 -> Ganadores();
+                case 7 -> System.exit(0);
                 default -> System.out.println("Ingresa una opcion valida");
             }
         } catch (Exception e) {
@@ -761,7 +764,7 @@ public class prueba1 {
                     modificacion.nextLine();
                     System.out.println();
                     System.out.println("-------------------------------------");
-                    System.out.print  ("-      Ingrese el nuevo lugar       -");
+                    System.out.println("-      Ingrese el nuevo lugar       -");
                     System.out.println("-------------------------------------");
                     System.out.print("Nuevo Lugar: ");
                     lugar = modificacion.nextLine();
@@ -789,7 +792,7 @@ public class prueba1 {
                     modificacion.nextLine();
                     System.out.println();
                     System.out.println("-------------------------------------");
-                    System.out.print  ("-   Ingrese el motivo de votacion   -");
+                    System.out.println("-   Ingrese el motivo de votacion   -");
                     System.out.println("-------------------------------------");
                     System.out.print("Nuevo motivo: ");
                     motivoVotacion = modificacion.nextLine();
@@ -803,7 +806,7 @@ public class prueba1 {
                     modificacion.nextLine();
                     System.out.println();
                     System.out.println("-------------------------------------");
-                    System.out.print  ("-   Ingrese el limitador de ID      -");
+                    System.out.println("-   Ingrese el limitador de ID      -");
                     System.out.println("-------------------------------------");
                     System.out.print("Nuevo limitador: ");
                     limintatID = modificacion.nextInt();
@@ -869,9 +872,13 @@ public class prueba1 {
 
                 modificarInformacion();
         }
+
+        modificacion.close();
     }
 
     static void InformacionVotacion(){
+        limpiarConsola();
+        Scanner informacion = new Scanner(System.in);
         System.out.println("---------------------------------");
         System.out.println("- Informacion de las votaciones -");
         System.out.println("---------------------------------");
@@ -887,6 +894,17 @@ public class prueba1 {
         System.out.println("La duracion de Gestion de la planilla ganadora es de " + periodoGestion + " meses");
         System.out.println();
         System.out.println("--------------------------------------------------------");
+        System.out.println();
+
+        System.out.println("*********************************");
+        System.out.println("Presiona ENTER para continuar");
+        System.out.println("******************************");
+        @SuppressWarnings("unused")
+        String message = informacion.nextLine();
+
+        Menu();
+
+        informacion.close();
     }
 
     public static void main(String[] args){
