@@ -9,6 +9,9 @@ public class prueba1 {
     static String password = "BoKuLe1967"; //Contrasena que puede modificarse
     static int limintatID = 10; //Limitante ID que puede ser ajustable
     static int periodoGestion = 4; //En meeses
+    static String fechaVotacion = "08/13/25";
+    static String motivoVotacion = "Escolar";
+    static String lugar = "Universidad Tecnologica de Tijuana";
 
     static void Menu(){
         limpiarConsola();
@@ -20,7 +23,8 @@ public class prueba1 {
             System.out.println("-----------------------------------");
             System.out.println("----  1 - Administrador  ----------");
             System.out.println("----  2 - Votante        ----------");
-            System.out.println("----  3 - Salir          ----------");
+            System.out.println("----  3 - Informacion    ----------");
+            System.out.println("----  4 - Salir          ----------");
             System.out.println("-----------------------------------");
             try {
                 System.out.print("Opcion: ");
@@ -34,7 +38,10 @@ public class prueba1 {
                         Votante_Loggin();
                         break;
                     case 3:
+                        InformacionVotacion();
+                     case 4:
                         cerrarProgram();
+                        break;
                     default:
                         menu.nextLine();
                         System.out.println();
@@ -703,19 +710,187 @@ public class prueba1 {
             for(int i : ganadores){
                 String empatados = planillaList.get(i).get(0);
 
-                System.out.println("Empadatos: " + empatados + " con " + " votos");
+                System.out.println("Empadatos: " + empatados + " con " + contadorVoto + " votos");
             }
 
             System.out.println("-----------------------------------------");
             @SuppressWarnings("unused")
             String message = ganadoresMessage.nextLine();
+
+            Admin();
         }
 
         ganadoresMessage.close();
     }
 
+    static void modificarInformacion(){
+        limpiarConsola();
+        Scanner modificacion = new Scanner(System.in);
+
+        System.out.println("-------------------------------------");
+        System.out.println("- Que informacion quiere modificar? -");
+        System.out.println("--- 1- Fecha                    -----");
+        System.out.println("--- 2- Lugar                    -----");
+        System.out.println("--- 3- Tiempo de gestion        -----");
+        System.out.println("--- 4- Motivo de la votacion    -----");
+        System.out.println("--- 5- Limitador ID             -----");
+        System.out.println("--- 6- No cambiar nada          -----");
+        System.out.println("-------------------------------------");
+
+        try{
+            System.out.print("Opcion: ");
+            int modificarOpcion = modificacion.nextInt();
+
+            switch (modificarOpcion) {
+                case 1:
+                    limpiarConsola();
+                    modificacion.nextLine();
+                    System.out.println();
+                    System.out.println("-------------------------------------");
+                    System.out.println("- Ingrese la nueva fecha (dd/mm/aa) -");
+                    System.out.println("-------------------------------------");
+                    System.out.print("Nueva Fecha: ");
+                    fechaVotacion = modificacion.nextLine();
+
+                    System.out.println();
+                    System.out.println("Fecha modificada a: " + fechaVotacion);
+                    break;
+                
+                case 2:
+                    limpiarConsola();
+                    modificacion.nextLine();
+                    System.out.println();
+                    System.out.println("-------------------------------------");
+                    System.out.print  ("-      Ingrese el nuevo lugar       -");
+                    System.out.println("-------------------------------------");
+                    System.out.print("Nuevo Lugar: ");
+                    lugar = modificacion.nextLine();
+
+                    System.out.println();
+                    System.out.println("Lugar modificado a: " + lugar);
+                    break;
+
+                case 3:
+                    limpiarConsola();
+                    modificacion.nextLine();
+                    System.out.println();
+                    System.out.println("-----------------------------------------------");
+                    System.out.println("- Ingrese el nuevo periodo de gestion (meses) -");
+                    System.out.println("-----------------------------------------------");
+                    System.out.print("Nuevo periodo: ");
+                    periodoGestion = modificacion.nextInt();
+
+                    System.out.println();
+                    System.out.println("Periodo modificado a: " + periodoGestion + " meses");
+                    break;
+
+                case 4:
+                    limpiarConsola();
+                    modificacion.nextLine();
+                    System.out.println();
+                    System.out.println("-------------------------------------");
+                    System.out.print  ("-   Ingrese el motivo de votacion   -");
+                    System.out.println("-------------------------------------");
+                    System.out.print("Nuevo motivo: ");
+                    motivoVotacion = modificacion.nextLine();
+
+                    System.out.println();
+                    System.out.println("Motivo modificado a: " + motivoVotacion);
+                    break;
+
+                case 5:
+                    limpiarConsola();
+                    modificacion.nextLine();
+                    System.out.println();
+                    System.out.println("-------------------------------------");
+                    System.out.print  ("-   Ingrese el limitador de ID      -");
+                    System.out.println("-------------------------------------");
+                    System.out.print("Nuevo limitador: ");
+                    limintatID = modificacion.nextInt();
+
+                    System.out.println();
+                    System.out.println("Limitador modificado a: " + limintatID + " numeros");
+                    break;
+
+                case 6:
+                    Admin();
+                    break;
+            
+                default:
+                    modificacion.nextLine();
+                    System.out.println();
+                    System.out.println("***************************************");
+                    System.out.println("* Por favor ingrese una opcion valida *");
+                    System.out.println("***************************************");
+                    @SuppressWarnings("unused")
+                    String message = modificacion.nextLine();
+
+                    modificarInformacion();
+                    break;
+            }
+
+            modificacion.nextLine();
+            System.out.println();
+            System.out.println("-----------------------------");
+            System.out.println("- Desea modificar algo mas? -");
+            System.out.println("- 1- Si                   ---");
+            System.out.println("- 2- No                   ---");
+            System.out.println("-----------------------------");
+            System.out.print("Opcion: ");
+            int algoMas = modificacion.nextInt();
+
+            switch (algoMas) {
+                case 1:
+                    modificarInformacion();
+                    break;
+                
+                case 2:
+                    Admin();
+                    break;
+            
+                default:
+                    System.out.println();
+                    System.out.println("***************************************");
+                    System.out.println("* Por favor ingrese una opcion valida *");
+                    System.out.println("***************************************");
+                    @SuppressWarnings("unused")
+                    String message = modificacion.nextLine();
+                    break;
+            }
+        } catch (Exception e) {
+                modificacion.nextLine();
+                System.out.println();
+                System.out.println("******************************");
+                System.out.println("Por favor ingrese solo numeros");
+                System.out.println("Presiona ENTER para continuar");
+                System.out.println("******************************");
+                @SuppressWarnings("unused")
+                String message = modificacion.nextLine();
+
+                modificarInformacion();
+        }
+    }
+
+    static void InformacionVotacion(){
+        System.out.println("---------------------------------");
+        System.out.println("- Informacion de las votaciones -");
+        System.out.println("---------------------------------");
+
+        System.out.println("-------------------------------------------------------");
+        System.out.println();
+        System.out.println("Motivo de las votaciones: " + motivoVotacion);
+        System.out.println();
+        System.out.println("Fecha: " + fechaVotacion);
+        System.out.println();
+        System.out.println("Lugar donde se realizaran las votaciones: " + lugar);
+        System.out.println();
+        System.out.println("La duracion de Gestion de la planilla ganadora es de " + periodoGestion + " meses");
+        System.out.println();
+        System.out.println("--------------------------------------------------------");
+    }
+
     public static void main(String[] args){
-        Menu();
+        modificarInformacion();
     }
 
     static void cerrarProgram(){
