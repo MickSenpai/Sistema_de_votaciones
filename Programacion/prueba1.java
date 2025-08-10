@@ -327,11 +327,13 @@ public class prueba1 {
 
                 System.out.print("Cuantas planillas desea agregar?: ");
                 int cantidadPlanillas = planillas.nextInt();
+
+                planillas.nextLine();
+
+                System.out.println();
                 
                 for(int p = 1; p <= cantidadPlanillas; p++){
                     ArrayList<String> Titulos = new ArrayList<>();
-                
-                    planillas.nextLine();
                     
                     System.out.println("Planilla " + p);
                     
