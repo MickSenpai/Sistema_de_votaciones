@@ -23,8 +23,9 @@ public class prueba1 {
             System.out.println("-----------------------------------");
             System.out.println("----  1 - Administrador  ----------");
             System.out.println("----  2 - Votante        ----------");
-            System.out.println("----  3 - Informacion    ----------");
-            System.out.println("----  4 - Salir          ----------");
+            System.out.println("----  3 - Integrantes Planillas ---");
+            System.out.println("----  4 - Informacion    ----------");
+            System.out.println("----  5 - Salir          ----------");
             System.out.println("-----------------------------------");
             try {
                 System.out.print("Opcion: ");
@@ -38,9 +39,12 @@ public class prueba1 {
                         Votante_Loggin();
                         break;
                     case 3:
-                        InformacionVotacion();
+                        Integrantes_Planillas();
                         break;
                      case 4:
+                        InformacionVotacion();
+                        break;
+                    case 5:
                         cerrarProgram();
                         break;
                     default:
@@ -139,40 +143,26 @@ public class prueba1 {
 
                     Menu();
                 } else {
-                    try {
-                        int idNumero = Integer.parseInt(id.trim());
-                        Listado_IDs(idNumero); //Se manda a validacion a la funcion Listado_IDs para ver si es repetido
-                    } catch (Exception e) {
-                        System.out.println();
-                        System.out.println("****************************************");
-                        System.out.println("Ha ocurrido un error... Intente de nuevo");
-                        System.out.println("---- Presione ENTER para continuar -----");
-                        System.out.println("****************************************");
-                        @SuppressWarnings("unused")
-                        String message = matricula.nextLine();
-
-                        Menu();
-                    }
+                    long idNumero = Long.parseLong(id.trim());
+                    Listado_IDs(idNumero); //Se manda a validacion a la funcion Listado_IDs para ver si es repetido
                 }
-            } catch (Exception e) {
-                matricula.nextLine();
-                
+
+            } catch (NumberFormatException e) {
                 System.out.println();
-                System.out.println("******************************");
-                System.out.println("Por favor ingrese solo numeros");
-                System.out.println("Presione ENTER para continuar");
-                System.out.println("******************************");
+                System.out.println("****************************************");
+                System.out.println("Ha ocurrido un error... Intente de nuevo");
+                System.out.println("---- Presione ENTER para continuar -----");
+                System.out.println("****************************************");
                 @SuppressWarnings("unused")
                 String message = matricula.nextLine();
-                
-                Votante_Loggin();
+                Menu();
             }
         }
     }
 
-    static ArrayList <Integer> ListaID_Votantes = new ArrayList<>(); //Creamos el listado de IDs (GLobal)
+    static ArrayList <Long> ListaID_Votantes = new ArrayList<>(); //Creamos el listado de IDs (GLobal)
 
-    static void Listado_IDs(int id){ //Se hace la validacion de ID existente
+    static void Listado_IDs(Long id){ //Se hace la validacion de ID existente
 
         boolean id_Existente = ListaID_Votantes.contains(id);
 
@@ -256,11 +246,10 @@ public class prueba1 {
             System.out.println("------ Selecciona tu opcion: ------");
             System.out.println("------ 1- Agregar planillas  ------");
             System.out.println("------ 2- Eliminar planillas ------");
-            System.out.println("------ 3- Integrantes planillas ---");
-            System.out.println("------ 4- Modificar informacion ---");
-            System.out.println("------ 5- Regresar al menu   ------");
-            System.out.println("------ 6- Conocer Resultados ------");
-            System.out.println("------ 7- Finalizar votacion ------");
+            System.out.println("------ 3- Modificar informacion ---");
+            System.out.println("------ 4- Regresar al menu   ------");
+            System.out.println("------ 5- Conocer Resultados ------");
+            System.out.println("------ 6- Finalizar votacion ------");
             System.out.println("-----------------------------------");
             System.out.print("Opcion: ");
             int opcion = adminOpcion.nextInt();
@@ -268,11 +257,10 @@ public class prueba1 {
             switch (opcion) {
                 case 1 -> Agregar_Planillas();
                 case 2 -> Eliminar_Planillas();
-                case 3 -> Integrantes_Planillas();
-                case 4 -> Integrantes_Planillas();
-                case 5 -> Menu();
-                case 6 -> Ganadores();
-                case 7 -> System.exit(0);
+                case 3 -> modificarInformacion();
+                case 4 -> Menu();
+                case 5 -> Ganadores();
+                case 6 -> cerrarProgram();
                 default -> System.out.println("Ingresa una opcion valida");
             }
         } catch (Exception e) {
@@ -494,7 +482,7 @@ public class prueba1 {
             System.out.println("Presiona ENTER para volver al menu...");
             System.out.println("-------------------------------------");
             integrantes.nextLine();
-            Votante_Menu();
+            Menu();
         }
 
         // Mostrar cada planilla
@@ -514,7 +502,7 @@ public class prueba1 {
         System.out.println("-----------------------------------");
         integrantes.nextLine();
 
-        Votante_Menu();
+        Menu();
 
         integrantes.close();
     }
@@ -831,8 +819,6 @@ public class prueba1 {
                     modificarInformacion();
                     break;
             }
-
-            modificacion.nextLine();
             System.out.println();
             System.out.println("-----------------------------");
             System.out.println("- Desea modificar algo mas? -");
@@ -907,8 +893,9 @@ public class prueba1 {
         informacion.close();
     }
 
+    
     public static void main(String[] args){
-        modificarInformacion();
+        Menu();
     }
 
     static void cerrarProgram(){
