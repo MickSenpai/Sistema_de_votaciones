@@ -12,6 +12,7 @@ public class prueba1 {
     static String fechaVotacion = "08/13/25";
     static String motivoVotacion = "Escolar";
     static String lugar = "Universidad Tecnologica de Tijuana";
+    static boolean empate = false;
 
     static void Menu(){
         limpiarConsola();
@@ -290,34 +291,6 @@ public class prueba1 {
             System.out.println("-----------------------------------");
             System.out.println();
             try {
-                System.out.println("------------------------------------------");
-                System.out.println("- Desea modificar el periodo de Gestion? -");
-                System.out.println("------------------------------------------");
-                System.out.println("------------------------------------------");
-                System.out.println("----  1- Si                    -----------");
-                System.out.println("----  2- No                    -----------");
-                System.out.println("------------------------------------------");
-                System.out.print("Opcion: ");
-                int gestionPeriodo = planillas.nextInt();
-
-                if(gestionPeriodo == 1){
-                    limpiarConsola();
-
-                    System.out.println("------------------------------------------");
-                    System.out.println("--- Ingrese el nuevo periodo em Meses  ---");
-                    System.out.println("------------------------------------------");
-                    periodoGestion = planillas.nextInt();
-
-                    limpiarConsola();
-
-                    planillas.nextLine();
-                    System.out.println("------------------------------------------");
-                    System.out.println("Periodo cambiado a " + periodoGestion + " Meses");
-                    System.out.println("------------------------------------------");
-                    @SuppressWarnings("unused")
-                    String message = planillas.nextLine();
-                }
-
                 limpiarConsola();
 
                 System.out.println("-----------------------------------");
@@ -697,6 +670,7 @@ public class prueba1 {
             Admin();
         } else {
 
+            empate = true;
             System.out.println("-----------------------------------------");
             System.out.println("--- Tenemos un empate entre: ------------");
 
@@ -710,10 +684,101 @@ public class prueba1 {
             @SuppressWarnings("unused")
             String message = ganadoresMessage.nextLine();
 
-            Admin();
+            Empatados();
         }
-
         ganadoresMessage.close();
+    }
+
+    static void Empatados(){
+        Scanner empat = new Scanner(System.in);
+
+        empat.nextLine();
+        if(empate == true){
+            limpiarConsola();
+            System.out.println("-------------------------------------------------------");
+            System.out.println("Desea reagendar una segunda votacion para el desempate?");
+            System.out.println("-------------------------------------------------------");
+            System.out.println("--------------- 1- Si              --------------------");
+            System.out.println("--------------- 2- No              --------------------");
+            System.out.println("-------------------------------------------------------");
+            System.out.print("Opcion: ");
+            int desempate = empat.nextInt();
+
+            try {
+                switch (desempate) {
+                    case 1:
+                        limpiarConsola();
+                        empat.nextLine();
+                        System.out.println("-------------------------------------");
+                        System.out.println("- Ingrese la nueva fecha (dd/mm/aa) -");
+                        System.out.println("-------------------------------------");
+                        System.out.print("Nueva Fecha: ");
+                        fechaVotacion = empat.nextLine();
+
+                        System.out.println();
+                        System.out.println("Fecha modificada a: " + fechaVotacion);
+
+                        limpiarConsola();
+                        System.out.println("-------------------------------------");
+                        System.out.println("-   Ingrese el motivo de votacion   -");
+                        System.out.println("-------------------------------------");
+                        System.out.print("Nuevo motivo: ");
+                        motivoVotacion = empat.nextLine();
+
+                        System.out.println();
+                        System.out.println("Motivo modificado a: " + motivoVotacion);
+
+
+                        empat.close();
+
+                        limpiarConsola();
+                        System.out.println("---------------------------------");
+                        System.out.println("- La informacion fue cambiada   -");
+                        System.out.println("---------------------------------");
+                        System.out.println();
+                        System.out.println("----------------------------------");
+                        System.out.println("- Presione ENTER para ir al Menu -");
+                        System.out.println("----------------------------------");
+                        break;
+                
+                    case 2:
+                        limpiarConsola();
+                        System.out.println("---------------------------------");
+                        System.out.println("- Entendible, tenga un buen dia -");
+                        System.out.println("---------------------------------");
+                        System.out.println();
+                        System.out.println("----------------------------------");
+                        System.out.println("- Presione ENTER para ir al Menu -");
+                        System.out.println("----------------------------------");
+                        empat.nextLine();
+                        break;
+                
+                    default:
+                        limpiarConsola();
+                        System.out.println("---------------------------------");
+                        System.out.println("-   Ingrese una opcion valida   -");
+                        System.out.println("---------------------------------");
+                        System.out.println();
+                        System.out.println("----------------------------------");
+                        System.out.println("- Presione ENTER para ir al Menu -");
+                        System.out.println("----------------------------------");
+                        empat.nextLine();
+                        break;
+                }
+            } catch (Exception e) {
+                empat.nextLine();
+                System.out.println();
+                System.out.println("****************************************");
+                System.out.println("Por favor ingrese el formato solicitado ");
+                System.out.println("***** Presiona ENTER para continuar ****");
+                System.out.println("****************************************");
+                @SuppressWarnings("unused")
+                String message = empat.nextLine();
+            }
+
+            Menu();
+            empat.close();
+        }
     }
 
     static void modificarInformacion(){
