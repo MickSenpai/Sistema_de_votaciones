@@ -488,78 +488,91 @@ public class prueba1 {
         Scanner votacion = new Scanner(System.in);
         
         try{
-            System.out.println("-----------------------------------------");
-            System.out.println("--------   Sistema de votaciones  -------");
-            System.out.println("-----------------------------------------");
-            System.out.println();
-            System.out.println("-----------------------------------------");
-            System.out.println("--- Por favor seleccione su planilla  ---");
-            System.out.println("-----------------------------------------");
+            if(empate == false){
+                System.out.println("-----------------------------------------");
+                System.out.println("--------   Sistema de votaciones  -------");
+                System.out.println("-----------------------------------------");
+                System.out.println();
+                System.out.println("-----------------------------------------");
+                System.out.println("--- Por favor seleccione su planilla  ---");
+                System.out.println("-----------------------------------------");
 
-            for (int i = 0; i < planillaList.size(); i++) {
-                ArrayList<String> planillaActual = planillaList.get(i);
-                String nombrePlanilla = planillaActual.get(0);
-                System.out.println("\nPlanilla " + (i + 1) + " [" + nombrePlanilla + "]");
+                for (int i = 0; i < planillaList.size(); i++) {
+                    ArrayList<String> planillaActual = planillaList.get(i);
+                    String nombrePlanilla = planillaActual.get(0);
+                    System.out.println("\nPlanilla " + (i + 1) + " [" + nombrePlanilla + "]");
 
-                for (int j = 1; j < planillaActual.size(); j++) {
-                    String[] partes = planillaActual.get(j).split(": ");
-                    if (partes.length > 1) {
-                        System.out.println(planillaActual.get(j));
+                    for (int j = 1; j < planillaActual.size(); j++) {
+                        String[] partes = planillaActual.get(j).split(": ");
+                        if (partes.length > 1) {
+                            System.out.println(planillaActual.get(j));
+                        }
                     }
                 }
-            }
-
-            System.out.println();
-            System.out.print("Ingrese su opción: ");
-            int voto = votacion.nextInt();
-
-            if (voto >= 1 && voto <= planillaList.size()) {
-                ArrayList<String> planillaVotada = planillaList.get(voto - 1);
-                
-                limpiarConsola();
 
                 System.out.println();
-                System.out.println("------------------------------");
-                System.out.println("La planilla seleccionada es: ");
-                System.out.println("------------------------------\n");
+                System.out.print("Ingrese su opción: ");
+                int voto = votacion.nextInt();
 
-                String nombrePlanilla = planillaVotada.get(0);
-                System.out.println("Planilla: " + nombrePlanilla);
+                if (voto >= 1 && voto <= planillaList.size()) {
+                    ArrayList<String> planillaVotada = planillaList.get(voto - 1);
+                    
+                    limpiarConsola();
 
-                System.out.println();
-                System.out.println("--------------------------------");
-                System.out.println("--- ¿Es correcta su elección? ---");
-                System.out.println("--- 1 - Sí              --------");
-                System.out.println("--- 2 - No              --------");
-                System.out.println("--------------------------------");
-                
-                try {
-                    int confirmacionVoto = votacion.nextInt();
+                    System.out.println();
+                    System.out.println("------------------------------");
+                    System.out.println("La planilla seleccionada es: ");
+                    System.out.println("------------------------------\n");
 
-                    switch (confirmacionVoto) {
-                        case 1:
-                            Conteo_Votos(voto - 1);
+                    String nombrePlanilla = planillaVotada.get(0);
+                    System.out.println("Planilla: " + nombrePlanilla);
 
-                            System.out.println();
-                            System.out.println("--------------------------------");
-                            System.out.println("--- Regresando al menu...  -----");
-                            System.out.println("--------------------------------");
-                            @SuppressWarnings("unused")
-                            String message = votacion.nextLine();
+                    System.out.println();
+                    System.out.println("--------------------------------");
+                    System.out.println("--- ¿Es correcta su elección? ---");
+                    System.out.println("--- 1 - Sí              --------");
+                    System.out.println("--- 2 - No              --------");
+                    System.out.println("--------------------------------");
+                    
+                    try {
+                        int confirmacionVoto = votacion.nextInt();
 
-                            Menu();
-                            break;
-                        case 2:
-                            Votaciones();
-                            break;
-                        default:
-                            System.out.println("--------------------------------");
-                            System.out.println("--- Ingrese una opción válida. -");
-                            System.out.println("--------------------------------");
+                        switch (confirmacionVoto) {
+                            case 1:
+                                Conteo_Votos(voto - 1);
 
-                            Votaciones();
+                                System.out.println();
+                                System.out.println("--------------------------------");
+                                System.out.println("--- Regresando al menu...  -----");
+                                System.out.println("--------------------------------");
+                                @SuppressWarnings("unused")
+                                String message = votacion.nextLine();
+
+                                Menu();
+                                break;
+                            case 2:
+                                Votaciones();
+                                break;
+                            default:
+                                System.out.println("--------------------------------");
+                                System.out.println("--- Ingrese una opción válida. -");
+                                System.out.println("--------------------------------");
+
+                                Votaciones();
+                        }
+                    } catch (Exception e) {
+                        limpiarConsola();
+
+                        votacion.nextLine();
+                        System.out.println("------------------------------------");
+                        System.out.println("Opción inválida. Intente nuevamente.");
+                        System.out.println("------------------------------------");
+                        @SuppressWarnings("unused")
+                        String message = votacion.nextLine();
+                        Votaciones();
                     }
-                } catch (Exception e) {
+
+                } else {
                     limpiarConsola();
 
                     votacion.nextLine();
@@ -570,17 +583,92 @@ public class prueba1 {
                     String message = votacion.nextLine();
                     Votaciones();
                 }
-
             } else {
-                limpiarConsola();
 
+                limpiarConsola();
+                System.out.println("-----------------------------------------");
+                System.out.println("--------   Sistema de votaciones  -------");
+                System.out.println("--------      *  Desempate  *     -------");
+                System.out.println("-----------------------------------------");
+                System.out.println();
+                System.out.println("-----------------------------------------");
+                System.out.println("--- Por favor seleccione su planilla  ---");
+                System.out.println("-----------------------------------------");
                 votacion.nextLine();
-                System.out.println("------------------------------------");
-                System.out.println("Opción inválida. Intente nuevamente.");
-                System.out.println("------------------------------------");
-                @SuppressWarnings("unused")
-                String message = votacion.nextLine();
-                Votaciones();
+
+                System.out.println();
+                System.out.print("Ingrese su opción: ");
+                int voto = votacion.nextInt();
+
+                if (voto >= 1 && voto <= planillaList.size()) {
+                    ArrayList<String> planillaVotada = planillaList.get(voto - 1);
+                    
+                    limpiarConsola();
+
+                    System.out.println();
+                    System.out.println("------------------------------");
+                    System.out.println("La planilla seleccionada es: ");
+                    System.out.println("------------------------------\n");
+
+                    String nombrePlanilla = planillaVotada.get(0);
+                    System.out.println("Planilla: " + nombrePlanilla);
+
+                    System.out.println();
+                    System.out.println("--------------------------------");
+                    System.out.println("--- ¿Es correcta su elección? ---");
+                    System.out.println("--- 1 - Sí              --------");
+                    System.out.println("--- 2 - No              --------");
+                    System.out.println("--------------------------------");
+                    
+                    try {
+                        int confirmacionVoto = votacion.nextInt();
+
+                        switch (confirmacionVoto) {
+                            case 1:
+                                Conteo_Votos(voto - 1);
+
+                                System.out.println();
+                                System.out.println("--------------------------------");
+                                System.out.println("--- Regresando al menu...  -----");
+                                System.out.println("--------------------------------");
+                                @SuppressWarnings("unused")
+                                String message = votacion.nextLine();
+
+                                Menu();
+                                break;
+                            case 2:
+                                Votaciones();
+                                break;
+                            default:
+                                System.out.println("--------------------------------");
+                                System.out.println("--- Ingrese una opción válida. -");
+                                System.out.println("--------------------------------");
+
+                                Votaciones();
+                        }
+                    } catch (Exception e) {
+                        limpiarConsola();
+
+                        votacion.nextLine();
+                        System.out.println("------------------------------------");
+                        System.out.println("Opción inválida. Intente nuevamente.");
+                        System.out.println("------------------------------------");
+                        @SuppressWarnings("unused")
+                        String message = votacion.nextLine();
+                        Votaciones();
+                    }
+
+                } else {
+                    limpiarConsola();
+
+                    votacion.nextLine();
+                    System.out.println("------------------------------------");
+                    System.out.println("Opción inválida. Intente nuevamente.");
+                    System.out.println("------------------------------------");
+                    @SuppressWarnings("unused")
+                    String message = votacion.nextLine();
+                    Votaciones();
+                }
             }
 
             votacion.close();
@@ -655,6 +743,10 @@ public class prueba1 {
             System.out.println("-------------------------------------");
             System.out.println("- Las planillas no recibieron votos -");
             System.out.println("-------------------------------------");
+            @SuppressWarnings("unused")
+            String message = ganadoresMessage.nextLine();
+
+            Admin();
 
         }else if(ganadores.size() == 1){
 
@@ -686,9 +778,10 @@ public class prueba1 {
 
             Empatados();
         }
+
         ganadoresMessage.close();
     }
-
+    
     static void Empatados(){
         Scanner empat = new Scanner(System.in);
 
@@ -698,8 +791,8 @@ public class prueba1 {
             System.out.println("-------------------------------------------------------");
             System.out.println("Desea reagendar una segunda votacion para el desempate?");
             System.out.println("-------------------------------------------------------");
-            System.out.println("--------------- 1- Si              --------------------");
-            System.out.println("--------------- 2- No              --------------------");
+            System.out.println("-------         1- Si                            ------");
+            System.out.println("-------         2- No                            ------");
             System.out.println("-------------------------------------------------------");
             System.out.print("Opcion: ");
             int desempate = empat.nextInt();
@@ -733,19 +826,49 @@ public class prueba1 {
                         empat.nextLine();
 
                         limpiarConsola();
-                        System.out.println("---------------------------------");
-                        System.out.println("- La informacion fue cambiada   -");
-                        System.out.println("---------------------------------");
+                        System.out.println("-----------------------------------------");
+                        System.out.println("-     La informacion fue cambiada       -");
+                        System.out.println("-----------------------------------------");
                         System.out.println();
-                        System.out.println("----------------------------------");
-                        System.out.println("- Presione ENTER para ir al Menu -");
-                        System.out.println("----------------------------------");
+                        System.out.println("-----------------------------------------");
+                        System.out.println("- Desea eliminar la plantilla que perdio?");
+                        System.out.println("-----------------------------------------");
+                        System.out.println("------      1- Si             -----------");
+                        System.out.println("------      2- NO             -----------");
+                        System.out.println("-----------------------------------------");
+                        System.out.println("Opcion: ");
+                        int eliminarPlantilla = empat.nextInt();
+
+                        System.out.println();
+
+                        if(eliminarPlantilla == 1){
+                            Eliminar_Planillas();
+                        } else if(eliminarPlantilla == 2){
+                            limpiarConsola();
+                            empat.nextLine();
+                            System.out.println("---------------------------------");
+                            System.out.println("- Entendible, tenga un buen dia -");
+                            System.out.println("---------------------------------");
+                            System.out.println("- Regresando al menu principal  -");
+                            System.out.println("---------------------------------");
+                            System.out.println();
+                            System.out.println("----------------------------------");
+                            System.out.println("- Presione ENTER para ir al Menu -");
+                            System.out.println("----------------------------------");
+                            @SuppressWarnings("unused")
+                            String message = empat.nextLine();
+                        } else {
+
+                        }
+
                         break;
                 
                     case 2:
                         limpiarConsola();
                         System.out.println("---------------------------------");
                         System.out.println("- Entendible, tenga un buen dia -");
+                        System.out.println("---------------------------------");
+                        System.out.println("- Regresando al menu principal  -");
                         System.out.println("---------------------------------");
                         System.out.println();
                         System.out.println("----------------------------------");
