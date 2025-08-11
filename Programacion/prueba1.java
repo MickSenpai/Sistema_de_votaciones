@@ -682,7 +682,8 @@ public class prueba1 {
                     String message = votacion.nextLine();
                     Votaciones();
                 }
-
+            }
+            
             votacion.close();
         } catch (Exception e) {
             votacion.nextLine();
