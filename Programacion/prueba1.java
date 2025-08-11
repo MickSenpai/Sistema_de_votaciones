@@ -203,8 +203,7 @@ public class prueba1 {
             System.out.println("-----------------------------------");
             System.out.println("------ Selecciona tu opcion: ------");
             System.out.println("------ 1- Votar              ------");
-            System.out.println("------ 2- Ver plantillas     ------");
-            System.out.println("------ 3- Regresar           ------");
+            System.out.println("------ 2- Regresar           ------");
             System.out.println("-----------------------------------");
             System.out.print("Opcion: ");
 
@@ -212,8 +211,7 @@ public class prueba1 {
             
             switch (opcion) {
                 case 1 -> Votaciones();
-                case 2 -> Integrantes_Planillas();
-                case 3 -> Menu();
+                case 2 -> Menu();
                 default -> System.out.println("Ingresa una opcion valida");
             }
         } catch (Exception e) {
@@ -460,14 +458,16 @@ public class prueba1 {
             Menu();
         }
 
-        // Mostrar cada planilla
-        for (ArrayList<String> planilla : planillaList) {
-            // El primer elemento es el nombre de la planilla
-            System.out.println("\nplantilla [" + planilla.get(0) + "]");
-            
-            // Mostrar cada cargo y persona (empezando desde el segundo elemento)
-            for (int j = 1; j < planilla.size(); j++) {
-                System.out.println(planilla.get(j));
+        for (int i = 0; i < planillaList.size(); i++) {
+            ArrayList<String> planillaActual = planillaList.get(i);
+            String nombrePlanilla = planillaActual.get(0);
+            System.out.println("\nPlanilla " + (i + 1) + " [" + nombrePlanilla + "]");
+
+            for (int j = 1; j < planillaActual.size(); j++) {
+                String[] partes = planillaActual.get(j).split(": ");
+                if (partes.length > 1) {
+                    System.out.println(planillaActual.get(j));
+                }
             }
         }
         
@@ -504,7 +504,7 @@ public class prueba1 {
                 for (int j = 1; j < planillaActual.size(); j++) {
                     String[] partes = planillaActual.get(j).split(": ");
                     if (partes.length > 1) {
-                        System.out.println("Puesto " + j + " : " + partes[1]);
+                        System.out.println(planillaActual.get(j));
                     }
                 }
             }
@@ -718,6 +718,8 @@ public class prueba1 {
                         System.out.println();
                         System.out.println("Fecha modificada a: " + fechaVotacion);
 
+                        empat.nextLine();
+
                         limpiarConsola();
                         System.out.println("-------------------------------------");
                         System.out.println("-   Ingrese el motivo de votacion   -");
@@ -728,8 +730,7 @@ public class prueba1 {
                         System.out.println();
                         System.out.println("Motivo modificado a: " + motivoVotacion);
 
-
-                        empat.close();
+                        empat.nextLine();
 
                         limpiarConsola();
                         System.out.println("---------------------------------");
@@ -960,7 +961,6 @@ public class prueba1 {
         informacion.close();
     }
 
-    
     public static void main(String[] args){
         Menu();
     }
