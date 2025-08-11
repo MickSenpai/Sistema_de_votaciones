@@ -596,6 +596,19 @@ public class prueba1 {
                 System.out.println("-----------------------------------------");
                 votacion.nextLine();
 
+                for (int i = 0; i < planillaList.size(); i++) {
+                    ArrayList<String> planillaActual = planillaList.get(i);
+                    String nombrePlanilla = planillaActual.get(0);
+                    System.out.println("\nPlanilla " + (i + 1) + " [" + nombrePlanilla + "]");
+
+                    for (int j = 1; j < planillaActual.size(); j++) {
+                        String[] partes = planillaActual.get(j).split(": ");
+                        if (partes.length > 1) {
+                            System.out.println(planillaActual.get(j));
+                        }
+                    }
+                }
+
                 System.out.println();
                 System.out.print("Ingrese su opción: ");
                 int voto = votacion.nextInt();
@@ -669,7 +682,6 @@ public class prueba1 {
                     String message = votacion.nextLine();
                     Votaciones();
                 }
-            }
 
             votacion.close();
         } catch (Exception e) {
