@@ -594,7 +594,6 @@ public class prueba1 {
                 System.out.println("-----------------------------------------");
                 System.out.println("--- Por favor seleccione su planilla  ---");
                 System.out.println("-----------------------------------------");
-                votacion.nextLine();
 
                 for (int i = 0; i < planillaList.size(); i++) {
                     ArrayList<String> planillaActual = planillaList.get(i);
