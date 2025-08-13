@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class prueba1 {
+public class SistemaVotaciones {
 
     static String password = "BoKuLe1967"; //Contrasena que puede modificarse
     static int limintatID = 10; //Limitante ID que puede ser ajustable
