@@ -1,8 +1,14 @@
 //Probando...
 package Programacion;
 
-import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.io.IOException;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 public class SistemaVotaciones {
@@ -255,14 +261,27 @@ public class SistemaVotaciones {
             int opcion = adminOpcion.nextInt();
             
             switch (opcion) {
-                case 1 -> Agregar_Planillas();
-                case 2 -> Eliminar_Planillas();
-                case 3 -> modificarInformacion();
-                case 4 -> Menu();
-                case 5 -> Ganadores();
-                case 6 -> cerrarProgram();
-                default -> System.out.println("Ingresa una opcion valida");
+                case 1 : Agregar_Planillas(); break;
+                case 2 : Eliminar_Planillas(); break;
+                case 3 : modificarInformacion(); break;
+                case 4 : Menu(); break;
+                case 5 : Ganadores(); break;
+                case 6 : cerrarProgram(); break;
+
+                default :
+                    adminOpcion.nextLine();
+                    System.out.println();
+                    System.out.println("******************************");
+                    System.out.println("Por favor ingrese una opcion valida numeros");
+                    System.out.println("Presiona ENTER para continuar");
+                    System.out.println("******************************");
+                    @SuppressWarnings("unused")
+                    String message = adminOpcion.nextLine();
+                    
+                    Admin();
+                break;
             }
+                                
         } catch (Exception e) {
             adminOpcion.nextLine();
             System.out.println();
@@ -1050,5 +1069,59 @@ public class SistemaVotaciones {
         } catch (IOException | InterruptedException e) {
             System.out.println("Error al limpiar la consola: " + e.getMessage());
         }
+    }
+
+    public static void exportarssss(ArrayList<ArrayList<String>> planillaList,  ArrayList<Integer> votosPorPlanilla,  ArrayList<Integer> listaIDs) throws Exception {
+
+        String fecha = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+        String nombreArchivo = "resultado_votacion_" + fecha + ".txt";
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(nombreArchivo))) {
+            writer.println("===== RESULTADOS DE LA VOTACIÓN =====");
+            writer.println("Cantidad total de planillas: " + planillaList.size());
+            int totalVotos = votosPorPlanilla.stream().mapToInt(Integer::intValue).sum();
+            writer.println("Total de votos: " + totalVotos);
+            writer.println("Total de votantes: " + listaIDs.size());
+            writer.println("IDs que votaron: " + listaIDs);
+
+            if (votosPorPlanilla.isEmpty()) {
+                writer.println("Empate:");
+                writer.println("Ganador:");
+                writer.println("Perdedores:");
+            } else {
+                int maxVotos = Collections.max(votosPorPlanilla);
+                List<Integer> indicesGanadores = new ArrayList<>();
+                for (int i = 0; i < votosPorPlanilla.size(); i++) {
+                    if (votosPorPlanilla.get(i) == maxVotos) {
+                        indicesGanadores.add(i);
+                    }
+                }
+
+                if (indicesGanadores.size() > 1) {
+                    writer.println("Empate: Sí");
+                    for (int idx : indicesGanadores) {
+                        String nombrePlanilla = planillaList.get(idx).get(0).replace("Nombre: ", "");
+                        writer.println(" - " + nombrePlanilla + " (" + maxVotos + " votos)");
+                    }
+                    writer.println("Ganador:");
+                    writer.println("Perdedores:");
+                } else {
+                    writer.println("Empate:");
+                    int ganador = indicesGanadores.get(0);
+                    String nombreGanador = planillaList.get(ganador).get(0).replace("Nombre: ", "");
+                    writer.println("Ganador: " + nombreGanador + " (" + maxVotos + " votos)");
+
+                    writer.println("Perdedores:");
+                    for (int i = 0; i < votosPorPlanilla.size(); i++) {
+                        if (i != ganador) {
+                            String nombrePerdedor = planillaList.get(i).get(0).replace("Nombre: ", "");
+                            writer.println(" - " + nombrePerdedor + " (" + votosPorPlanilla.get(i) + " votos)");
+                        }
+                    }
+                }
+            }
+        }
+
+        System.out.println("Resultados guardados en: " + nombreArchivo);
     }
 }
