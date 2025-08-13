@@ -720,6 +720,9 @@ public class prueba1 {
 
     }
 
+    static ArrayList<Integer> indicesEmpatados = new ArrayList<>();
+    static int votosEmpate = 0;
+
     static void Ganadores(){
         limpiarConsola();
         int contadorVoto = -1;
@@ -732,7 +735,6 @@ public class prueba1 {
             String conteo = planilla.get(planilla.size() - 1);
 
             int votos;
-
             try{
                 votos = Integer.parseInt(conteo);
             } catch (NumberFormatException e){
@@ -751,171 +753,60 @@ public class prueba1 {
         System.out.println("Resultados: ");
 
         if(contadorVoto == 0){
-
             System.out.println("-------------------------------------");
             System.out.println("- Las planillas no recibieron votos -");
             System.out.println("-------------------------------------");
-            @SuppressWarnings("unused")
-            String message = ganadoresMessage.nextLine();
-
+            ganadoresMessage.nextLine();
             Admin();
 
-        }else if(ganadores.size() == 1){
-
+        } else if(ganadores.size() == 1){
             int ganador = ganadores.get(0);
             String ganadorName = planillaList.get(ganador).get(0);
 
             System.out.println("------------------------------------------------------------------------------");
             System.out.println("La planilla con mayores votos es: " + ganadorName + " con " + contadorVoto + " votos a su favor");
             System.out.println("------------------------------------------------------------------------------");
-            @SuppressWarnings("unused")
-            String message = ganadoresMessage.nextLine();
-
+            ganadoresMessage.nextLine();
             Admin();
-        } else {
 
+        } else {
             empate = true;
+            indicesEmpatados.clear();
+            indicesEmpatados.addAll(ganadores);
+            votosEmpate = contadorVoto;
+
             System.out.println("-----------------------------------------");
             System.out.println("--- Tenemos un empate entre: ------------");
 
             for(int i : ganadores){
                 String empatados = planillaList.get(i).get(0);
-
-                System.out.println("Empadatos: " + empatados + " con " + contadorVoto + " votos");
+                System.out.println("Empatados: " + empatados + " con " + contadorVoto + " votos");
             }
 
             System.out.println("-----------------------------------------");
-            @SuppressWarnings("unused")
-            String message = ganadoresMessage.nextLine();
+            ganadoresMessage.nextLine();
 
             Empatados();
         }
 
         ganadoresMessage.close();
     }
-    
+
     static void Empatados(){
-        Scanner empat = new Scanner(System.in);
+        limpiarConsola();
+        System.out.println("----------------------------------------------------");
+        System.out.println("- Iniciando nueva votación solo para los empatados -");
+        System.out.println("----------------------------------------------------");
 
-        empat.nextLine();
-        if(empate == true){
-            limpiarConsola();
-            System.out.println("-------------------------------------------------------");
-            System.out.println("Desea reagendar una segunda votacion para el desempate?");
-            System.out.println("-------------------------------------------------------");
-            System.out.println("-------         1- Si                            ------");
-            System.out.println("-------         2- No                            ------");
-            System.out.println("-------------------------------------------------------");
-            System.out.print("Opcion: ");
-            int desempate = empat.nextInt();
-
-            try {
-                switch (desempate) {
-                    case 1:
-                        limpiarConsola();
-                        empat.nextLine();
-                        System.out.println("-------------------------------------");
-                        System.out.println("- Ingrese la nueva fecha (dd/mm/aa) -");
-                        System.out.println("-------------------------------------");
-                        System.out.print("Nueva Fecha: ");
-                        fechaVotacion = empat.nextLine();
-
-                        System.out.println();
-                        System.out.println("Fecha modificada a: " + fechaVotacion);
-
-                        empat.nextLine();
-
-                        limpiarConsola();
-                        System.out.println("-------------------------------------");
-                        System.out.println("-   Ingrese el motivo de votacion   -");
-                        System.out.println("-------------------------------------");
-                        System.out.print("Nuevo motivo: ");
-                        motivoVotacion = empat.nextLine();
-
-                        System.out.println();
-                        System.out.println("Motivo modificado a: " + motivoVotacion);
-
-                        empat.nextLine();
-
-                        limpiarConsola();
-                        System.out.println("-----------------------------------------");
-                        System.out.println("-     La informacion fue cambiada       -");
-                        System.out.println("-----------------------------------------");
-                        System.out.println();
-                        System.out.println("-----------------------------------------");
-                        System.out.println("- Desea eliminar la plantilla que perdio?");
-                        System.out.println("-----------------------------------------");
-                        System.out.println("------      1- Si             -----------");
-                        System.out.println("------      2- NO             -----------");
-                        System.out.println("-----------------------------------------");
-                        System.out.println("Opcion: ");
-                        int eliminarPlantilla = empat.nextInt();
-
-                        System.out.println();
-
-                        if(eliminarPlantilla == 1){
-                            Eliminar_Planillas();
-                        } else if(eliminarPlantilla == 2){
-                            limpiarConsola();
-                            empat.nextLine();
-                            System.out.println("---------------------------------");
-                            System.out.println("- Entendible, tenga un buen dia -");
-                            System.out.println("---------------------------------");
-                            System.out.println("- Regresando al menu principal  -");
-                            System.out.println("---------------------------------");
-                            System.out.println();
-                            System.out.println("----------------------------------");
-                            System.out.println("- Presione ENTER para ir al Menu -");
-                            System.out.println("----------------------------------");
-                            @SuppressWarnings("unused")
-                            String message = empat.nextLine();
-                        } else {
-
-                        }
-
-                        break;
-                
-                    case 2:
-                        limpiarConsola();
-                        System.out.println("---------------------------------");
-                        System.out.println("- Entendible, tenga un buen dia -");
-                        System.out.println("---------------------------------");
-                        System.out.println("- Regresando al menu principal  -");
-                        System.out.println("---------------------------------");
-                        System.out.println();
-                        System.out.println("----------------------------------");
-                        System.out.println("- Presione ENTER para ir al Menu -");
-                        System.out.println("----------------------------------");
-                        empat.nextLine();
-                        break;
-                
-                    default:
-                        limpiarConsola();
-                        System.out.println("---------------------------------");
-                        System.out.println("-   Ingrese una opcion valida   -");
-                        System.out.println("---------------------------------");
-                        System.out.println();
-                        System.out.println("----------------------------------");
-                        System.out.println("- Presione ENTER para ir al Menu -");
-                        System.out.println("----------------------------------");
-                        empat.nextLine();
-                        break;
-                }
-            } catch (Exception e) {
-                empat.nextLine();
-                System.out.println();
-                System.out.println("****************************************");
-                System.out.println("Por favor ingrese el formato solicitado ");
-                System.out.println("***** Presiona ENTER para continuar ****");
-                System.out.println("****************************************");
-                @SuppressWarnings("unused")
-                String message = empat.nextLine();
-            }
-
-            Menu();
-            empat.close();
+        //Reiniciamos a 0 los votos de los empatados.
+        for(int idx : indicesEmpatados){
+            ArrayList<String> planilla = planillaList.get(idx);
+            planilla.set(planilla.size() - 1, "0");
         }
+        
+        Menu();
     }
+
 
     static void modificarInformacion(){
         limpiarConsola();
