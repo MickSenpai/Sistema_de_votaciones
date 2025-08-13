@@ -1,14 +1,13 @@
-//Probando... x2 x3
 package Programacion;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.io.IOException;
-import java.io.FileWriter;
 import java.util.Scanner;
 
 public class SistemaVotaciones {
@@ -749,6 +748,7 @@ public class SistemaVotaciones {
 
         Scanner ganadoresMessage = new Scanner(System.in);
         ArrayList<Integer> ganadores = new ArrayList<>();
+        ArrayList<Integer> votosPorPlanilla = new ArrayList<>();
 
         for(int i = 0; i < planillaList.size(); i++){
             ArrayList<String> planilla = planillaList.get(i);
@@ -760,6 +760,7 @@ public class SistemaVotaciones {
             } catch (NumberFormatException e){
                 votos = 0;
             }
+            votosPorPlanilla.add(votos);
 
             if(votos > contadorVoto){
                 contadorVoto = votos;
@@ -776,6 +777,11 @@ public class SistemaVotaciones {
             System.out.println("-------------------------------------");
             System.out.println("- Las planillas no recibieron votos -");
             System.out.println("-------------------------------------");
+            try {
+                exportar(planillaList, votosPorPlanilla, new ArrayList<>(ListaID_Votantes));
+            } catch (Exception e) {
+                System.out.println("Error al guardar los resultados: " + e.getMessage());
+            }
             ganadoresMessage.nextLine();
             Admin();
 
@@ -786,6 +792,11 @@ public class SistemaVotaciones {
             System.out.println("------------------------------------------------------------------------------");
             System.out.println("La planilla con mayores votos es: " + ganadorName + " con " + contadorVoto + " votos a su favor");
             System.out.println("------------------------------------------------------------------------------");
+            try {
+                exportar(planillaList, votosPorPlanilla, new ArrayList<>(ListaID_Votantes));
+            } catch (Exception e) {
+                System.out.println("Error al guardar los resultados: " + e.getMessage());
+            }
             ganadoresMessage.nextLine();
             Admin();
 
@@ -804,6 +815,11 @@ public class SistemaVotaciones {
             }
 
             System.out.println("-----------------------------------------");
+            try {
+                exportar(planillaList, votosPorPlanilla, new ArrayList<>(ListaID_Votantes));
+            } catch (Exception e) {
+                System.out.println("Error al guardar los resultados: " + e.getMessage());
+            }
             ganadoresMessage.nextLine();
 
             Empatados();
@@ -818,7 +834,25 @@ public class SistemaVotaciones {
         System.out.println("- Iniciando nueva votación solo para los empatados -");
         System.out.println("----------------------------------------------------");
 
-        //Reiniciamos a 0 los votos de los empatados.
+        ArrayList<Integer> votosPorPlanilla = new ArrayList<>();
+        for (int i = 0; i < planillaList.size(); i++) {
+            ArrayList<String> planilla = planillaList.get(i);
+            String conteo = planilla.get(planilla.size() - 1);
+            int votos;
+            try {
+                votos = Integer.parseInt(conteo);
+            } catch (NumberFormatException e) {
+                votos = 0;
+            }
+            votosPorPlanilla.add(votos);
+        }
+
+        try {
+            exportar(planillaList, votosPorPlanilla, new ArrayList<>(ListaID_Votantes));
+        } catch (Exception e) {
+            System.out.println("Error al guardar los resultados: " + e.getMessage());
+        }
+
         for(int idx : indicesEmpatados){
             ArrayList<String> planilla = planillaList.get(idx);
             planilla.set(planilla.size() - 1, "0");
@@ -1082,6 +1116,64 @@ public class SistemaVotaciones {
             int totalVotos = votosPorPlanilla.stream().mapToInt(Integer::intValue).sum();
             writer.println("Total de votos: " + totalVotos);
             writer.println("Total de votantes: " + listaIDs.size());
+            writer.println("IDs que votaron: " + listaIDs);
+
+            if (votosPorPlanilla.isEmpty()) {
+                writer.println("Empate:");
+                writer.println("Ganador:");
+                writer.println("Perdedores:");
+            } else {
+                int maxVotos = Collections.max(votosPorPlanilla);
+                List<Integer> indicesGanadores = new ArrayList<>();
+                for (int i = 0; i < votosPorPlanilla.size(); i++) {
+                    if (votosPorPlanilla.get(i) == maxVotos) {
+                        indicesGanadores.add(i);
+                    }
+                }
+
+                if (indicesGanadores.size() > 1) {
+                    writer.println("Empate: Sí");
+                    for (int idx : indicesGanadores) {
+                        String nombrePlanilla = planillaList.get(idx).get(0).replace("Nombre: ", "");
+                        writer.println(" - " + nombrePlanilla + " (" + maxVotos + " votos)");
+                    }
+                    writer.println("Ganador:");
+                    writer.println("Perdedores:");
+                } else {
+                    writer.println("Empate:");
+                    int ganador = indicesGanadores.get(0);
+                    String nombreGanador = planillaList.get(ganador).get(0).replace("Nombre: ", "");
+                    writer.println("Ganador: " + nombreGanador + " (" + maxVotos + " votos)");
+
+                    writer.println("Perdedores:");
+                    for (int i = 0; i < votosPorPlanilla.size(); i++) {
+                        if (i != ganador) {
+                            String nombrePerdedor = planillaList.get(i).get(0).replace("Nombre: ", "");
+                            writer.println(" - " + nombrePerdedor + " (" + votosPorPlanilla.get(i) + " votos)");
+                        }
+                    }
+                }
+            }
+        }
+
+        System.out.println("Resultados guardados en: " + nombreArchivo);
+    }
+
+    public static void exportar(ArrayList<ArrayList<String>> planillaList, ArrayList<Integer> votosPorPlanilla, ArrayList<Long> listaIDs) throws Exception {
+
+        String fecha = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+        
+        String nombreArchivo = "resultado_votacion_" + fecha + ".txt";
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(nombreArchivo))) {
+            writer.println("===== RESULTADOS DE LA VOTACIÓN =====");
+            writer.println("Cantidad total de planillas: " + planillaList.size());
+            int totalVotos = votosPorPlanilla.stream().mapToInt(Integer::intValue).sum();
+            writer.println();
+            writer.println("Total de votos: " + totalVotos);
+            writer.println();
+            writer.println("Total de votantes: " + listaIDs.size());
+            writer.println();
             writer.println("IDs que votaron: " + listaIDs);
 
             if (votosPorPlanilla.isEmpty()) {
